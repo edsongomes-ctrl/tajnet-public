@@ -75,10 +75,22 @@ services:
       TLS_CN: ${TLS_CN:-}
       TLS_SAN: ${TLS_SAN:-}
       TLS_KEY_BITS: ${TLS_KEY_BITS:-2048}
+      PULSE_NODE_URLS: ${PULSE_NODE_URLS:-}
+      FUTUREMEN_NODE_URLS: ${FUTUREMEN_NODE_URLS:-}
+      PULSE_SECRETS_DIR: ${PULSE_SECRETS_DIR:-/tajnet/secrets/nodes}
+      PULSE_PROBE_TIMEOUT_MS: ${PULSE_PROBE_TIMEOUT_MS:-4000}
     volumes:
       - ${TAJCOIN_HOST_DATADIR:-./Tajcoin/data}:/host-tajcoin
       - ./plugins:/tajnet/plugins
       - ./data:/tajnet/data
+      - ./secrets/nodes:/tajnet/secrets/nodes:ro
+      # Dev : panel + core montés (pas besoin de rebuild pour Futuremen/Pulse/doc)
+      - ./panel/futuremen:/tajnet/panel/futuremen:ro
+      - ./panel/pulse:/tajnet/panel/pulse:ro
+      - ./panel/landing:/tajnet/panel/landing:ro
+      - ./core/bridge.js:/tajnet/bridge.js:ro
+      - ./core/lib:/tajnet/lib:ro
+      - ./core/routes:/tajnet/routes:ro
 
   db-matomo:
     image: mariadb:10.6

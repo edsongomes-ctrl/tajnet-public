@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Last·FM Node — TajNet souverain, IPFS, Tajcoin, Bran Web">
+  <title>Last·FM Node — TajNet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/themes/music/music.css">
+</head>
+<body>
+  <div class="vinyl-groove" aria-hidden="true"></div>
+  <div class="orb orb-cyan" aria-hidden="true"></div>
+  <div class="orb orb-violet" aria-hidden="true"></div>
+  <div class="orb orb-gold" aria-hidden="true"></div>
+
+  <header class="music-header">
+    <a href="/" class="music-logo" id="musicLogo">LAST·FM</a>
+    <div class="music-header-right">
+      <div class="equalizer" id="equalizer" aria-hidden="true"></div>
+      <div class="music-status" aria-live="polite">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connexion…</span>
+      </div>
+      <a href="/panel/" class="btn btn-glow" id="headerCta">TajPanel</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-tag" id="heroTag">Nœud souverain · IPFS · Tajcoin</p>
+      <h1 class="hero-title" id="heroTitle">Où la musique<br><em>rencontre la chaîne</em></h1>
+      <p class="hero-lead" id="heroLead">Un nœud TajNet curaté par Echo, Abel et Scriptor.</p>
+      <div class="hero-actions">
+        <a href="/panel/" class="btn btn-glow" id="primaryCta">Entrer dans le TajPanel →</a>
+        <a href="/bran-web/edit.html" class="btn btn-outline" id="secondaryCta">Bran Web</a>
+      </div>
+      <div class="live-strip" id="liveStrip">
+        <div class="live-chip"><span class="live-label">IPFS</span><span class="live-val" id="liveIpfs">—</span></div>
+        <div class="live-chip"><span class="live-label">Tajcoin</span><span class="live-val" id="liveTajcoin">—</span></div>
+        <div class="live-chip"><span class="live-label">Blocs</span><span class="live-val" id="liveBlocks">—</span></div>
+      </div>
+    </section>
+
+    <section class="agents-section">
+      <div class="section-head">
+        <p class="section-tag">Futuremen · curateurs du nœud</p>
+        <h2>Trois voix, une fréquence</h2>
+        <p class="section-lead">Echo imagine la narration, Abel lit le groove de la chaîne, Scriptor transforme le tout en modules exécutables.</p>
+      </div>
+      <div class="agents-grid" id="agentsGrid"></div>
+    </section>
+
+    <section class="studio-section">
+      <div class="studio-card">
+        <h3>Bran Web · atelier de publication</h3>
+        <p>Publiez des pages sur IPFS, ancrez-les en Tajcoin, laissez Guard protéger vos créations — comme un album qu'on presserait en vinyle numérique.</p>
+        <a href="/bran-web/edit.html" class="mono-link">Ouvrir l'éditeur →</a>
+      </div>
+      <div class="studio-card studio-card-dark">
+        <h3>Plugins · modularité Scriptor</h3>
+        <p><code>plugins/</code> · <code>manifest.json</code> · handlers · redémarrage du core. Voir <a href="/PLUGINS.md" class="mono-link">PLUGINS.md</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="music-footer">
+    <span id="footerText">LAST·FM NODE · TajNet public</span>
+    <span class="footer-credits">Echo · Abel · Scriptor — Venardi Framework</span>
+  </footer>
+
+  <script src="/themes/music/music.js"></script>
+</body>
+</html>

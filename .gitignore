@@ -17,12 +17,26 @@ synchro_nas.sh
 
 # Environnement
 .env
+*.env.local
+
+# Credentials opérateur (SSH, tokens) — voir secrets/README.md
+# Jamais committer : *.env réels, github.txt, mots de passe
+secrets/**
+!secrets/README.md
+!secrets/.gitkeep
+!secrets/nodes/
+!secrets/nodes/.gitkeep
+!secrets/nodes/*.example
+secrets/nodes/*.env
+secrets/*.txt
+secrets/**/*.txt
+
+# Anciens emplacements (migration → secrets/nodes/)
 GitHub.txt
 credentials.env
 saopaulo.env
 raspberry.env
 lastfmnode.env
-*.env.local
 
 # Certificats TLS (générés localement — ne pas committer)
 data/tls/*

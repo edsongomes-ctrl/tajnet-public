@@ -1,0 +1,48 @@
+{
+  "theme": "heritage",
+  "pageTitle": "Raspberry Node — Résilience & héritage",
+  "nodeName": "RASPBERRY",
+  "tagline": "Nœud ARM · Tajcoin natif · archives IPFS · mémoire souveraine",
+  "heroTitle": "Résilience<br><em>& héritage</em>",
+  "heroLead": "Sur cette petite machine qui ne s'éteint jamais, Tamara garde la flamme, Olga grave les mots et Anna lit les lignes de force de l'histoire — un nœud TajNet tenu par la mémoire collective.",
+  "primaryCtaLabel": "Ouvrir le TajPanel →",
+  "primaryCtaUrl": "/panel/",
+  "secondaryCtaLabel": "Publier avec Bran Web",
+  "secondaryCtaUrl": "/bran-web/edit.html",
+  "footerText": "RASPBERRY NODE · TajNet public · Venardi × Futuremen",
+  "contactEmail": "",
+  "showDeploymentSection": false,
+  "sectionTag": "Futuremen · gardiennes du nœud",
+  "sectionTitle": "Trois voix pour tenir la mémoire",
+  "sectionLead": "Tamara harmonise, Olga rédige l'héritage, Anna situe le nœud dans le grand jeu des peuples et des chaînes.",
+  "footerCredits": "Tamara · Olga · Anna — Venardi Framework",
+  "agents": [
+    {
+      "id": "tamara",
+      "code": "FM-011",
+      "name": "Tamara",
+      "role": "Spiritualité · résilience",
+      "accent": "tamara",
+      "image": "/themes/heritage/agents/tamara.jpg",
+      "quote": "La chaîne est un fil d'or entre les générations — chaque bloc porte la mémoire de ceux qui ont tenu la flamme."
+    },
+    {
+      "id": "olga",
+      "code": "FM-008",
+      "name": "Olga Vinikova",
+      "role": "Rédaction · héritage écrit",
+      "accent": "olga",
+      "image": "/themes/heritage/agents/olga.jpg",
+      "quote": "Archiver, c'est écrire pour demain. Chaque page publiée sur IPFS devient une lettre ouverte à l'histoire."
+    },
+    {
+      "id": "anna",
+      "code": "FM-007",
+      "name": "Anna Petrescu",
+      "role": "Géopolitique · mémoire des peuples",
+      "accent": "anna",
+      "image": "/themes/heritage/agents/anna.jpg",
+      "quote": "Un nœud souverain tient debout quand les empires tremblent — la géopolitique du décentralisé commence ici."
+    }
+  ]
+}

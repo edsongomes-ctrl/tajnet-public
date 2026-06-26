@@ -31,9 +31,47 @@ if [ ! -f Tajcoin/bootstrap-900600.zip ]; then
   ./scripts/fetch-bootstrap.sh
 fi
 
-echo "   🐳 Démarrage Docker (IPFS + Tajcoin embarqués)…"
-docker compose -f docker-compose.yml -f docker-compose.embedded.yml -f docker-compose.public.yml \
-  --profile embedded-ipfs --profile embedded-tajcoin up -d --build
+echo "   🐳 Démarrage Docker…"
+HAS_IPFS=false
+HAS_TAJCOIN=false
+
+if curl -fsS -m 2 http://127.0.0.1:5001/api/v0/id >/dev/null 2>&1 \
+  || curl -fsS -m 2 -X POST http://127.0.0.1:5001/api/v0/id >/dev/null 2>&1; then
+  HAS_IPFS=true
+fi
+
+if pgrep -x tajcoind >/dev/null 2>&1 \
+  || ss -tln 2>/dev/null | grep -q ':12107 ' \
+  || netstat -tln 2>/dev/null | grep -q ':12107 '; then
+  HAS_TAJCOIN=true
+fi
+
+COMPOSE_FILES=(-f docker-compose.yml -f docker-compose.public.yml)
+PROFILES=()
+
+if [ "$HAS_IPFS" = true ] && [ "$HAS_TAJCOIN" = false ]; then
+  echo "   ℹ️  IPFS hôte + Tajcoin Docker (lastfm)"
+  COMPOSE_FILES=(-f docker-compose.yml -f docker-compose.host-ipfs.yml -f docker-compose.public.yml)
+  PROFILES=(--profile embedded-tajcoin)
+elif [ "$HAS_IPFS" = false ] && [ "$HAS_TAJCOIN" = true ]; then
+  echo "   ℹ️  Tajcoin hôte + IPFS Docker (raspberry)"
+  COMPOSE_FILES=(-f docker-compose.yml -f docker-compose.vps.yml -f docker-compose.public.yml)
+  PROFILES=(--profile embedded-ipfs)
+  TAJCOIN_HOME="${TAJCOIN_HOME:-$HOME/.tajcoin}"
+  if [ -d "$TAJCOIN_HOME" ] && grep -q '^TAJCOIN_HOST_DATADIR=' .env 2>/dev/null; then
+    sed -i "s|^TAJCOIN_HOST_DATADIR=.*|TAJCOIN_HOST_DATADIR=${TAJCOIN_HOME}|" .env
+  elif [ -d "$TAJCOIN_HOME" ]; then
+    echo "TAJCOIN_HOST_DATADIR=${TAJCOIN_HOME}" >> .env
+  fi
+elif [ "$HAS_IPFS" = false ] && [ "$HAS_TAJCOIN" = false ]; then
+  echo "   ℹ️  Stack 100 % Docker (embedded-ipfs + embedded-tajcoin)"
+  COMPOSE_FILES=(-f docker-compose.yml -f docker-compose.embedded.yml -f docker-compose.public.yml)
+  PROFILES=(--profile embedded-ipfs --profile embedded-tajcoin)
+else
+  echo "   ℹ️  IPFS + Tajcoin sur l'hôte — core seul"
+fi
+
+docker compose "${COMPOSE_FILES[@]}" "${PROFILES[@]}" up -d --build
 
 PORT="$(grep -E '^PANEL_PORT=' .env 2>/dev/null | cut -d= -f2 || echo 8090)"
 PORT="${PORT:-8090}"

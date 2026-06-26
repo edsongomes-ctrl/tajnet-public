@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const DEFAULT_PROFILE = {
+  theme: "default",
   nodeName: "TAJNET",
   tagline: "Graine v0.1 — nœud public · tajnet.cloud",
   heroTitle: "TajNet\nDocumentation",
@@ -44,8 +45,27 @@ function saveLandingProfile(dataDir, profile) {
   return merged;
 }
 
+const THEMED_LANDING = {
+  music: path.join("themes", "music", "index.html"),
+  heritage: path.join("themes", "heritage", "index.html"),
+};
+
+function resolveLandingIndex({ landingDir, dataDir, isPublic }) {
+  const profile = loadLandingProfile(dataDir);
+  if (isPublic && profile.theme && THEMED_LANDING[profile.theme]) {
+    const themedIndex = path.join(landingDir, THEMED_LANDING[profile.theme]);
+    if (fs.existsSync(themedIndex)) return themedIndex;
+  }
+  if (isPublic) {
+    const publicIndex = path.join(landingDir, "public", "index.html");
+    if (fs.existsSync(publicIndex)) return publicIndex;
+  }
+  return path.join(landingDir, "index.html");
+}
+
 module.exports = {
   DEFAULT_PROFILE,
   loadLandingProfile,
   saveLandingProfile,
+  resolveLandingIndex,
 };

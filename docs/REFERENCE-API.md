@@ -61,6 +61,7 @@ Base URL par défaut : `http://localhost:8090` (HTTP) ou `https://localhost:8443
 
 | Champ | Description |
 |-------|-------------|
+| `theme` | `default` · `music` · `heritage` — sélectionne la landing thématique en édition public |
 | `nodeName` | Nom affiché dans la barre de navigation |
 | `tagline` | Accroche hero |
 | `heroTitle` | Titre principal (`\n` pour saut de ligne) |
@@ -70,10 +71,11 @@ Base URL par défaut : `http://localhost:8090` (HTTP) ou `https://localhost:8443
 | `footerText` | Pied de page |
 | `contactEmail` | Email de contact (affiché en pied de page, ex. `info@tajnet.cloud`) |
 | `showDeploymentSection` | Afficher la section Docker (défaut : `true`) |
+| `agents[]` | Portraits Futuremen (thèmes `music` / `heritage`) : `id`, `name`, `role`, `image`, `quote`, … |
+
+Résolution de la page `/` : [`core/lib/landing-profile.js`](../core/lib/landing-profile.js) — édition **full** → doc ; édition **public** + `theme` → `panel/landing/themes/<theme>/`.
 
 Persistance : `data/landing/profile.json` (`TAJNET_DATA_DIR`).
-
----
 
 ## Wallet Tajcoin fichier (`/api/tajcoin/wallet/…`)
 
@@ -259,7 +261,7 @@ Implémentation : [`core/lib/cv-discover-gate.js`](../core/lib/cv-discover-gate.
 
 Réponse : `{ success, entries[], sources[], entryCount, publicOrigin, generatedAt, … }` — dédoublonnage par `contentCid`, liens fiche canoniques vers `FUTUREMEN_PUBLIC_ORIGIN` (défaut `https://tajnet.cloud`). Les CV verrouillés n'exposent pas de lien IPFS direct (voir [Entrées Super CV](#entrées-super-cv-type-cv) ci-dessus).
 
-**Page** `/futuremen/` : HTML servi par le core avec **snippet Matomo** injecté (`MATOMO_PUBLIC_URL` ou `{DISCOVER_NODE_ENDPOINT}/matomo/`).
+**Page** `/futuremen/` (édition **full** uniquement) : interface Futuremen HQ servie par le core avec **snippet Matomo** injecté (`MATOMO_PUBLIC_URL` ou `{DISCOVER_NODE_ENDPOINT}/matomo/`). Côté client : recherche full-text sur le flux chargé, pagination (12 entrées / page), filtres par nœud source, liens vers `/` (doc) et `/panel/`.
 
 Variables : `FUTUREMEN_NODE_URLS`, `FUTUREMEN_PUBLIC_ORIGIN` (voir [`.env.example`](../.env.example)).
 

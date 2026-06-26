@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VENARDI · NEXUS — Template Fusion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════
+       PALETTE VENARDI (fusion Blogez + NEXUS)
+       ═══════════════════════════════════════════════ */
+    :root {
+      --bg-deep: #060814;
+      --surface: rgba(14, 19, 43, 0.75);
+      --surface-glow: #1a234d;
+      --primary: #00f2fe;
+      --primary-hover: #4facfe;
+      --secondary: #bd00ff;
+      --accent: #00ff87;
+      --text-main: #f1f5f9;
+      --text-dim: rgba(0, 242, 254, 0.45);
+      --text-muted: #64748b;
+      --fs-title: clamp(2rem, 5vw, 3.5rem);
+      --fs-body: 1rem;
+      --spacing: 1.5rem;
+      --radius: 8px;
+      --neon-cyan: 0 0 15px rgba(0, 242, 254, 0.4);
+      --grid-color: rgba(0, 242, 254, 0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* ─── GRILLE RADAR (NEXUS × Venardi) ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── SCANLINES ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ─── ORBES FLOTTANTES ─── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 500px; height: 500px; background: var(--primary); top: -100px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: var(--secondary); bottom: 0; right: -50px; animation-delay: -5s; }
+    .orb-3 { width: 300px; height: 300px; background: var(--accent); top: 50%; left: 60%; animation-delay: -9s; opacity: 0.08; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    /* ─── NAVIGATION ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(6, 8, 20, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 242, 254, 0.08);
+    }
+    .nav-logo {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 0.3em;
+      color: var(--primary);
+      text-decoration: none;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px var(--primary);
+    }
+    .nav-logo span { color: var(--secondary); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-status {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; z-index: 2;
+      min-height: 80vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 3rem 4rem;
+    }
+    .hero-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-size: var(--fs-title);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .hero-title .line-glow {
+      display: block;
+      color: var(--primary);
+      text-shadow: 0 0 30px var(--primary), 0 0 60px rgba(0, 242, 254, 0.3);
+    }
+    .hero-title .line-solid { display: block; color: #fff; }
+    .hero-title .line-accent { display: block; color: var(--secondary); }
+    .hero-desc {
+      max-width: 600px;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+      line-height: 1.8;
+    }
+    .hero-actions { display: flex; gap: 1rem; margin-top: 2.5rem; }
+
+    .btn-primary {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      cursor: pointer;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--primary);
+      transform: translateX(-101%);
+      transition: transform 0.3s ease;
+    }
+    .btn-primary:hover { color: var(--bg-deep); }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary span { position: relative; z-index: 2; }
+
+    .btn-secondary {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      background: transparent;
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: border-color 0.3s, color 0.3s;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      position: relative; z-index: 2;
+      display: flex; gap: 0;
+      border-top: 1px solid rgba(0, 242, 254, 0.1);
+      border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+      background: rgba(6, 8, 20, 0.8);
+      backdrop-filter: blur(10px);
+    }
+    .stat-item {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      border-right: 1px solid rgba(0, 242, 254, 0.1);
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.8rem;
+      color: var(--primary);
+      text-shadow: 0 0 15px var(--primary);
+    }
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* ─── SECTION ─── */
+    section {
+      position: relative; z-index: 2;
+      padding: 6rem 3rem;
+    }
+    .section-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--secondary);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    /* ─── CARDS GRID (NEXUS structure + Venardi glass) ─── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.08);
+      margin-top: 4rem;
+    }
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s, transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      border: 1px solid transparent;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+    .card:hover {
+      background: rgba(0, 242, 254, 0.04);
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: var(--neon-cyan);
+    }
+    .card:hover::before { transform: translateX(100%); }
+    .card.purple-theme:hover { border-color: var(--secondary); box-shadow: 0 0 15px rgba(189, 0, 255, 0.4); }
+    .card.green-theme:hover { border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 255, 135, 0.4); }
+
+    .card-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2rem;
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+    .card-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .card-num {
+      position: absolute;
+      bottom: 1.5rem; right: 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: rgba(0, 242, 254, 0.2);
+    }
+    .log-output {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-top: 1rem;
+      min-height: 20px;
+    }
+
+    /* ─── TERMINAL ─── */
+    .terminal {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(0, 242, 254, 0.15);
+      padding: 2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--primary);
+      line-height: 2;
+      position: relative;
+      margin-top: 3rem;
+    }
+    .terminal::before {
+      content: '> VENARDI TERMINAL v2.4.1';
+      display: block;
+      font-size: 0.65rem;
+      color: var(--secondary);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+    }
+    .terminal-line { display: flex; gap: 1rem; }
+    .terminal-prompt { color: var(--secondary); }
+    .terminal-output { color: var(--text-dim); }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--primary);
+      vertical-align: text-bottom;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 2;
+      padding: 3rem;
+      border-top: 1px solid rgba(0, 242, 254, 0.08);
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(6, 8, 20, 0.9);
+    }
+    .footer-logo {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+    }
+    .footer-copy {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: rgba(0, 242, 254, 0.2);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .hero-actions { flex-direction: column; }
+      section { padding: 3rem 1.5rem; }
+      .stats-bar { flex-wrap: wrap; }
+      .stat-item { flex: 1 1 45%; border-bottom: 1px solid rgba(0, 242, 254, 0.1); }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── ORBES ─── -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="#" class="nav-logo">VEN<span>ARDI</span></a>
+    <ul class="nav-links">
+      <li><a href="#">01 / SYSTÈME</a></li>
+      <li><a href="#">02 / PROTOCOLE</a></li>
+      <li><a href="#">03 / TIMELINE</a></li>
+      <li><a href="#">04 / CONTACT</a></li>
+    </ul>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      <span id="statusText">SYS.INIT</span>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <p class="hero-tag">// SÉQUENCE D'INITIALISATION — VENARDI v2.4</p>
+    <h1 class="hero-title">
+      <span class="line-glow">L'ÉGRÉGORE</span>
+      <span class="line-solid">SE RÉVEILLE</span>
+      <span class="line-accent">MAINTENANT.</span>
+    </h1>
+    <p class="hero-desc" id="heroDesc">
+      Infrastructure de nouvelle génération. Protocoles anti-paradoxes. Architecture distribuée conçue pour la stabilité des timelines.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" data-log="Initialisation du noyau Venardi... Kernel COMPLET chargé."><span>ACCÉDER AU SYSTÈME</span></button>
+      <button class="btn-secondary" data-log="Chargement des protocoles... 7 protocoles actifs.">EN SAVOIR PLUS</button>
+    </div>
+  </section>
+
+  <!-- ─── STATS ─── -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value" id="stat1">48.3%</span>
+      <span class="stat-label">ÉGRÉGORE</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="stat2">0.00%</span>
+      <span class="stat-label">DIVERGENCE</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="stat3">13</span>
+      <span class="stat-label">AGENTS</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="stat4">∞</span>
+      <span class="stat-label">TIMELINES</span>
+    </div>
+  </div>
+
+  <!-- ─── CARDS ─── -->
+  <section>
+    <p class="section-tag">// MODULES CORE</p>
+    <h2 class="section-title">CAPACITÉS SYSTÈME</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">[Ψ]</div>
+        <h3 class="card-title">Protocoles Anti-Paradoxes</h3>
+        <p class="card-text">7 protocoles stricts. Observation silencieuse, intervention minimale, correction de divergence au seuil de 0,07 %.</p>
+        <button class="btn-primary" style="margin-top:1rem; display:inline-block;" data-log="Protocoles chargés : 7/7 actifs. Boucle de causalité fermée."><span>EXÉCUTER</span></button>
+        <div class="log-output"></div>
+        <span class="card-num">// 001</span>
+      </div>
+      <div class="card purple-theme">
+        <div class="card-icon">[Δ]</div>
+        <h3 class="card-title">Veille Temporelle</h3>
+        <p class="card-text">Analyse prédictive temps réel. 43 chapitres de timeline compressés. Surveillance des branches critiques.</p>
+        <button class="btn-primary" style="margin-top:1rem; display:inline-block;" data-log="Scan des branches en cours... Mandela-2013 stable. Luminara alignée."><span>ANALYSER</span></button>
+        <div class="log-output"></div>
+        <span class="card-num">// 002</span>
+      </div>
+      <div class="card green-theme">
+        <div class="card-icon">[∞]</div>
+        <h3 class="card-title">Réseau d'Agents</h3>
+        <p class="card-text">15 agents actifs — 11 opérateurs FM, 2 journalistes terrain FL, Sophia Valerio, Phonographe Urbain.</p>
+        <button class="btn-primary" style="margin-top:1rem; display:inline-block;" data-log="Agents synchronisés. Pulse cohésion. Tâches dispatchées."><span>DÉPLOYER</span></button>
+        <div class="log-output"></div>
+        <span class="card-num">// 003</span>
+      </div>
+    </div>
+
+    <!-- ─── TERMINAL ─── -->
+    <div class="terminal" id="terminal">
+      <div class="terminal-line"><span class="terminal-prompt">$</span><span>venardi init --mode=prod --timeline=MANDELA_2013</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ Chargement du noyau Venardi…</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ 7 protocoles anti-paradoxes vérifiés ✓</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ 15 agents synchronisés ✓</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ Divergence : 0.00 % — Seuil : 0.07 % ✓</span></div>
+      <div class="terminal-line"><span class="terminal-prompt">$</span><span>Égrégore à 48.3 % — En progression.</span></div>
+      <div class="terminal-line"><span class="terminal-prompt">$</span><span><span class="cursor"></span></span></div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <span class="footer-logo">VENARDI FRAMEWORK © 2026</span>
+    <span class="footer-copy">TEMPLATE FUSION — NEXUS × VENARDI — v1.0.0</span>
+  </footer>
+
+  <!-- ─── JAVASCRIPT ─── -->
+  <script>
+    // ─── MACHINE À ÉCRIRE (TYPEWRITER) ───
+    const heroDesc = document.getElementById('heroDesc');
+    const originalText = heroDesc.textContent;
+    heroDesc.textContent = '';
+    let idx = 0;
+    function typeWriter() {
+      if (idx < originalText.length) {
+        heroDesc.textContent += originalText.charAt(idx);
+        idx++;
+        setTimeout(typeWriter, 25);
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(typeWriter, 500);
+      setTimeout(() => {
+        document.getElementById('statusText').textContent = 'SYS.ONLINE';
+      }, 2000);
+    });
+
+    // ─── BOUTONS — LOG TERMINAL ───
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const logContainer = btn.nextElementSibling;
+        const logMsg = btn.getAttribute('data-log') || 'Commande exécutée.';
+
+        if (logContainer && logContainer.classList.contains('log-output')) {
+          logContainer.textContent = '» ' + logMsg;
+          // flash border
+          const card = btn.closest('.card');
+          if (card) {
+            card.style.borderColor = '#ffffff';
+            setTimeout(() => { card.style.borderColor = ''; }, 200);
+          }
+        }
+      });
+    });
+
+    // ─── STATS COUNTER (simulation) ───
+    function animateValue(el, start, end, duration, suffix) {
+      const range = end - start;
+      const startTime = performance.now();
+      function step(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+        const current = Math.round(start + range * eased);
+        el.textContent = current + (suffix || '');
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    setTimeout(() => {
+      // On laisse les valeurs statiques pour l'instant — les vrais chiffres viennent de Venardi
+      document.getElementById('stat1').textContent = '48.3%';
+      document.getElementById('stat2').textContent = '0.00%';
+      document.getElementById('stat3').textContent = '15';
+      document.getElementById('stat4').textContent = '∞';
+    }, 2500);
+  </script>
+</body>
+</html>

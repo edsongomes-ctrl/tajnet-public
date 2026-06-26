@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Racines — Template Écolo Bio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sage:    #7a8c5c;
+      --moss:    #4a5e35;
+      --earth:   #8b6e4e;
+      --cream:   #f7f2e8;
+      --linen:   #ede5d5;
+      --bark:    #2c2416;
+      --leaf:    #a3b87a;
+      --sky:     #c8d8c0;
+      --rust:    #b85c38;
+      --warm-white: #faf8f3;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--warm-white);
+      color: var(--bark);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRAIN TEXTURE ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.5;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3.5rem;
+      background: rgba(247,242,232,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(74,94,53,0.12);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--moss);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--earth);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--moss); }
+
+    .nav-cta {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.6rem;
+      background: var(--moss);
+      color: var(--cream);
+      text-decoration: none;
+      border-radius: 100px;
+      transition: background 0.25s;
+    }
+    .nav-cta:hover { background: var(--bark); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 3.5rem 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Organic blob background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      right: -100px; top: -100px;
+      background: radial-gradient(circle at 40% 40%, var(--sky) 0%, var(--linen) 60%, transparent 80%);
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+      animation: morph 10s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes morph {
+      0%   { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
+      33%  { border-radius: 40% 60% 30% 70% / 60% 40% 50% 50%; }
+      66%  { border-radius: 50% 50% 60% 40% / 40% 70% 30% 60%; }
+      100% { border-radius: 70% 30% 50% 50% / 55% 45% 65% 35%; }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--linen);
+      border: 1px solid rgba(74,94,53,0.2);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--sage);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .hero-badge::before { content: '🌱'; font-size: 0.85rem; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--bark);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--moss);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--earth);
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+    .btn-organic {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      background: var(--moss);
+      color: var(--cream);
+      text-decoration: none;
+      border-radius: 100px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-organic:hover { background: var(--bark); transform: translateY(-2px); }
+
+    .btn-ghost-organic {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--sage);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.25s;
+    }
+    .btn-ghost-organic:hover { color: var(--moss); }
+    .btn-ghost-organic::after { content: '→'; transition: transform 0.2s; }
+    .btn-ghost-organic:hover::after { transform: translateX(4px); }
+
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .product-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .product-card {
+      background: var(--linen);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid rgba(74,94,53,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(74,94,53,0.12); }
+    .product-card:nth-child(2) { margin-top: 2rem; }
+
+    .product-card-img {
+      height: 100px;
+      background: linear-gradient(135deg, var(--sky), var(--sage));
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .product-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--bark);
+      margin-bottom: 0.3rem;
+    }
+
+    .product-card-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--sage);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ─── RIBBON ─── */
+    .ribbon {
+      background: var(--moss);
+      color: var(--cream);
+      padding: 1rem 3.5rem;
+      display: flex; gap: 4rem;
+      overflow: hidden;
+    }
+    .ribbon-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ─── VALUES ─── */
+    .values {
+      padding: 7rem 3.5rem;
+      background: var(--linen);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--bark);
+      max-width: 600px;
+      line-height: 1.2;
+      margin-bottom: 4rem;
+    }
+    .section-headline em { font-style: italic; color: var(--moss); }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    .value-item {
+      background: var(--warm-white);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(74,94,53,0.08);
+      transition: border-color 0.3s;
+    }
+    .value-item:hover { border-color: var(--sage); }
+
+    .value-icon {
+      width: 52px; height: 52px;
+      background: var(--sky);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .value-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--bark);
+      margin-bottom: 0.6rem;
+    }
+
+    .value-text {
+      font-size: 0.88rem;
+      color: var(--earth);
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ─── QUOTE SECTION ─── */
+    .quote-section {
+      padding: 7rem 3.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .quote-section::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, var(--sky) 0%, transparent 70%);
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    blockquote {
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--moss);
+      max-width: 750px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.4;
+    }
+
+    .quote-author {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--earth);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bark);
+      color: var(--cream);
+      padding: 4rem 3.5rem 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--leaf);
+      margin-bottom: 1rem;
+    }
+
+    .footer-desc {
+      font-size: 0.85rem;
+      color: rgba(247,242,232,0.55);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 260px;
+    }
+
+    .footer-col-title {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--leaf);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a { font-size: 0.85rem; color: rgba(247,242,232,0.5); text-decoration: none; font-weight: 300; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--leaf); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247,242,232,0.1);
+      padding-top: 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem;
+      color: rgba(247,242,232,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Racines</a>
+    <ul class="nav-links">
+      <li><a href="#">Notre histoire</a></li>
+      <li><a href="#">Produits</a></li>
+      <li><a href="#">Engagements</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Boutique</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">Certifié Bio & Local</span>
+      <h1 class="hero-title">Nourrir le corps,<br><em>respecter</em><br>la Terre.</h1>
+      <p class="hero-desc">
+        Des produits cultivés avec soin, récoltés à la bonne saison, livrés sans intermédiaire. Parce que la vraie nature de la nourriture est d'être simple.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-organic">Découvrir nos paniers</a>
+        <a href="#" class="btn-ghost-organic">Notre démarche</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="product-cards">
+        <div class="product-card">
+          <div class="product-card-img">🫙</div>
+          <p class="product-card-name">Confiture d'antan</p>
+          <p class="product-card-tag">Agriculture raisonnée</p>
+        </div>
+        <div class="product-card">
+          <div class="product-card-img">🌾</div>
+          <p class="product-card-name">Céréales du moulin</p>
+          <p class="product-card-tag">Label AB • France</p>
+        </div>
+        <div class="product-card">
+          <div class="product-card-img">🍯</div>
+          <p class="product-card-name">Miel de forêt</p>
+          <p class="product-card-tag">Apiculteur local</p>
+        </div>
+        <div class="product-card">
+          <div class="product-card-img">🥦</div>
+          <p class="product-card-name">Légumes de saison</p>
+          <p class="product-card-tag">Km zéro</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ribbon">
+    <div class="ribbon-item">🌿 100% Bio certifié</div>
+    <div class="ribbon-item">🌍 Circuit court</div>
+    <div class="ribbon-item">📦 Emballage compostable</div>
+    <div class="ribbon-item">🤝 Producteurs locaux</div>
+    <div class="ribbon-item">♻️ Zéro déchet</div>
+    <div class="ribbon-item">🌱 Semences paysannes</div>
+  </div>
+
+  <section class="values">
+    <p class="section-label">Nos engagements</p>
+    <h2 class="section-headline">Une agriculture qui<br><em>régénère</em> plutôt qu'épuise.</h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="value-icon">🌱</div>
+        <h3 class="value-title">Sols vivants</h3>
+        <p class="value-text">Nous travaillons avec des agriculteurs pratiquant l'agroécologie, préservant la biodiversité microbienne des sols.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">💧</div>
+        <h3 class="value-title">Eau respectée</h3>
+        <p class="value-text">Irrigation raisonnée, zéro pesticide en ruissellement. L'eau est traitée comme la ressource précieuse qu'elle est.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🐝</div>
+        <h3 class="value-title">Biodiversité</h3>
+        <p class="value-text">Haies bocagères, fleurs sauvages, refuges à pollinisateurs. Nos fermes partenaires sont des îlots de vie.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🤲</div>
+        <h3 class="value-title">Commerce juste</h3>
+        <p class="value-text">Nos producteurs reçoivent 70% du prix de vente. Transparence totale, relation directe et durable.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <blockquote>
+      "La terre ne nous appartient pas. Nous l'empruntons à nos enfants."
+    </blockquote>
+    <p class="quote-author">— Proverbe amérindien</p>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Racines</p>
+        <p class="footer-desc">Une épicerie bio en ligne qui connecte producteurs engagés et consommateurs conscients, depuis 2019.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Produits</p>
+        <ul class="footer-links">
+          <li><a href="#">Fruits & légumes</a></li>
+          <li><a href="#">Épicerie</a></li>
+          <li><a href="#">Boissons</a></li>
+          <li><a href="#">Soins naturels</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Nos valeurs</p>
+        <ul class="footer-links">
+          <li><a href="#">Manifeste</a></li>
+          <li><a href="#">Producteurs</a></li>
+          <li><a href="#">Impact carbone</a></li>
+          <li><a href="#">Certifications</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Presse</a></li>
+          <li><a href="#">Recrutement</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Racines — Tous droits réservés</span>
+      <span>Template Écolo Bio</span>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Cabinet des Lettres — Template Littéraire</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ivory:       #f6f0e4;
+      --parchment:   #ede3cc;
+      --gold:        #b8922a;
+      --gold-light:  #d4a84b;
+      --ink:         #1a1408;
+      --ink-light:   #3d3020;
+      --sepia:       #7a5c2e;
+      --sepia-light: #a07840;
+      --red-wax:     #8b1a1a;
+      --shadow:      rgba(26,20,8,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--ivory);
+      color: var(--ink);
+      font-family: 'EB Garamond', serif;
+      font-size: 18px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ─── PAPER TEXTURE ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 28px,
+          rgba(184,146,42,0.04) 28px,
+          rgba(184,146,42,0.04) 29px
+        );
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── TOP ORNAMENT BAR ─── */
+    .ornament-bar {
+      background: var(--ink);
+      padding: 0.5rem 0;
+      text-align: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ivory);
+      border-bottom: 1px solid var(--parchment);
+      box-shadow: 0 2px 20px var(--shadow);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex; flex-direction: column; align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .nav-logo-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-search {
+      font-size: 0.85rem;
+      color: var(--sepia);
+      cursor: pointer;
+      font-style: italic;
+    }
+
+    /* ─── HERO EDITORIAL ─── */
+    .hero {
+      position: relative; z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 3rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 4rem;
+    }
+
+    .hero-divider {
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      align-self: stretch;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+
+    .issue-tag {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .issue-tag::before, .issue-tag::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.4;
+    }
+
+    .hero-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .hero-title-drop {
+      float: left;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6em;
+      line-height: 0.75;
+      padding-right: 0.08em;
+      padding-top: 0.05em;
+      color: var(--gold);
+    }
+
+    .hero-excerpt {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--sepia);
+      line-height: 1.7;
+      clear: both;
+    }
+
+    .hero-meta {
+      display: flex; align-items: center; gap: 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sepia-light);
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+    .btn-read {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2.5rem;
+      background: var(--ink);
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      transition: background 0.3s, color 0.3s;
+      align-self: flex-start;
+    }
+    .btn-read:hover { background: var(--gold); color: var(--ink); }
+
+    /* Right column – featured books */
+    .hero-right { display: flex; flex-direction: column; gap: 2rem; }
+
+    .featured-book {
+      display: flex; gap: 1.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--parchment);
+    }
+    .featured-book:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .book-spine {
+      width: 60px; flex-shrink: 0;
+      background: linear-gradient(160deg, var(--red-wax) 0%, #5c1010 100%);
+      min-height: 90px;
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      box-shadow: 3px 3px 12px rgba(0,0,0,0.25);
+    }
+    .book-spine.gold { background: linear-gradient(160deg, #8b6a1a, #5c4510); }
+    .book-spine.navy { background: linear-gradient(160deg, #1a2a5c, #0d1830); }
+
+    .book-info {}
+    .book-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .book-author {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .book-desc {
+      font-size: 0.82rem;
+      color: var(--sepia);
+      line-height: 1.65;
+    }
+
+    /* ─── ORNAMENTAL DIVIDER ─── */
+    .ornament-divider {
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 1.2rem;
+      color: var(--gold);
+      letter-spacing: 0.5em;
+      opacity: 0.6;
+    }
+
+    /* ─── SECTION ─── */
+    .articles-section {
+      position: relative; z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 3rem 6rem;
+    }
+
+    .section-header {
+      display: flex; align-items: center; gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      white-space: nowrap;
+    }
+    .section-header-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--parchment), transparent);
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
+    .article-card { display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .article-category {
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red-wax);
+    }
+
+    .article-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .article-title a {
+      text-decoration: none;
+      color: inherit;
+      background-image: linear-gradient(var(--gold), var(--gold));
+      background-repeat: no-repeat;
+      background-size: 0% 1px;
+      background-position: 0 100%;
+      transition: background-size 0.4s;
+    }
+    .article-title a:hover { background-size: 100% 1px; }
+
+    .article-excerpt {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--sepia);
+      line-height: 1.7;
+    }
+
+    .article-footer {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sepia-light);
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--parchment);
+      margin-top: auto;
+    }
+
+    /* ─── QUOTE BANNER ─── */
+    .quote-banner {
+      position: relative; z-index: 1;
+      background: var(--ink);
+      padding: 5rem 4rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    .quote-banner::before {
+      content: '❝';
+      position: absolute;
+      font-size: 20rem;
+      color: rgba(184,146,42,0.05);
+      top: -3rem; left: 2rem;
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .quote-banner blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--parchment);
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.5;
+      position: relative; z-index: 1;
+    }
+
+    .quote-banner cite {
+      font-family: 'EB Garamond', serif;
+      font-style: normal;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--parchment);
+      border-top: 3px double var(--gold);
+      padding: 4rem 3rem 2rem;
+      max-width: 100%;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .footer-logo-big {
+      font-family: 'EB Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .footer-motto {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--sepia);
+      font-size: 1rem;
+    }
+    .footer-links-row {
+      display: flex; justify-content: center; gap: 3rem;
+      list-style: none;
+      margin-top: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(184,146,42,0.3);
+    }
+    .footer-links-row a {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      text-decoration: none;
+    }
+    .footer-links-row a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 1.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sepia-light);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ornament-bar">Le Cabinet des Lettres &nbsp;·&nbsp; Revue littéraire &nbsp;·&nbsp; Fondée en MDCCCXCII</div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-title">Le Cabinet des Lettres</span>
+        <span class="nav-logo-sub">Revue de Littérature & Critique</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#">Littérature</a></li>
+        <li><a href="#">Poésie</a></li>
+        <li><a href="#">Critique</a></li>
+        <li><a href="#">Essais</a></li>
+        <li><a href="#">Chroniques</a></li>
+      </ul>
+      <span class="nav-search">Chercher dans les archives…</span>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <div class="issue-tag">Volume CXXXII — Automne 2025</div>
+        <h1 class="hero-title">
+          <span class="hero-title-drop">L</span>es mots comme demeure
+        </h1>
+        <p class="hero-excerpt">
+          Dans l'écriture de Marguerite Yourcenar, chaque phrase est une architecture secrète où le temps se plie, se déplie et finit par disparaître dans l'éclat de ce qui reste.
+        </p>
+        <div class="hero-meta">
+          <span>Par Henri Delvaux</span>
+          <span>·</span>
+          <span>15 octobre 2025</span>
+          <span>·</span>
+          <span>12 min de lecture</span>
+        </div>
+        <a href="#" class="btn-read">Lire l'article</a>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-right">
+        <div class="featured-book">
+          <div class="book-spine">Mémoires d'Hadrien</div>
+          <div class="book-info">
+            <p class="book-title">Mémoires d'Hadrien</p>
+            <p class="book-author">Marguerite Yourcenar</p>
+            <p class="book-desc">Un chef-d'œuvre de la littérature mondiale. La voix de l'empereur romain traverse les siècles avec une modernité étonnante.</p>
+          </div>
+        </div>
+        <div class="featured-book">
+          <div class="book-spine gold">La Recherche</div>
+          <div class="book-info">
+            <p class="book-title">À la recherche du temps perdu</p>
+            <p class="book-author">Marcel Proust</p>
+            <p class="book-desc">L'édifice colossal du souvenir. Notre critique complète du premier volume dans ce numéro.</p>
+          </div>
+        </div>
+        <div class="featured-book">
+          <div class="book-spine navy">Bovary</div>
+          <div class="book-info">
+            <p class="book-title">Madame Bovary</p>
+            <p class="book-author">Gustave Flaubert</p>
+            <p class="book-desc">Relecture du roman le plus scandaleux du XIXe siècle à la lumière du féminisme contemporain.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ornament-divider">✦ &nbsp;&nbsp; ✦ &nbsp;&nbsp; ✦</div>
+
+    <section class="articles-section">
+      <div class="section-header">
+        <h2>Dernières parutions</h2>
+        <div class="section-header-line"></div>
+      </div>
+      <div class="articles-grid">
+        <article class="article-card">
+          <p class="article-category">Poésie</p>
+          <h3 class="article-title"><a href="#">Le vers libre et ses contraintes paradoxales</a></h3>
+          <p class="article-excerpt">Apollinaire brisait les chaînes pour en forger de nouvelles, invisibles. Une étude de la liberté comme forme.</p>
+          <div class="article-footer">
+            <span>Claire Maubert</span>
+            <span>·</span>
+            <span>8 min</span>
+          </div>
+        </article>
+        <article class="article-card">
+          <p class="article-category">Essai</p>
+          <h3 class="article-title"><a href="#">Camus et l'absurde revisité en 2025</a></h3>
+          <p class="article-excerpt">Quatre-vingts ans après L'Étranger, la pensée de Camus résonne avec une acuité que nous n'aurions pas prévue.</p>
+          <div class="article-footer">
+            <span>Antoine Ferrière</span>
+            <span>·</span>
+            <span>11 min</span>
+          </div>
+        </article>
+        <article class="article-card">
+          <p class="article-category">Chronique</p>
+          <h3 class="article-title"><a href="#">Dix romans qui ont changé notre façon de voir</a></h3>
+          <p class="article-excerpt">De Dostoïevski à Toni Morrison, une sélection personnelle et subjective des livres fondateurs du rédacteur en chef.</p>
+          <div class="article-footer">
+            <span>La rédaction</span>
+            <span>·</span>
+            <span>6 min</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="quote-banner">
+    <blockquote>
+      « Un livre doit être la hache qui brise la mer gelée en nous. »
+    </blockquote>
+    <cite>— Franz Kafka, Lettre à Oskar Pollak, 1904</cite>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <p class="footer-logo-big">Le Cabinet</p>
+        <p class="footer-motto">« Pour ceux qui lisent entre les lignes. »</p>
+      </div>
+      <ul class="footer-links-row">
+        <li><a href="#">Abonnements</a></li>
+        <li><a href="#">Archives</a></li>
+        <li><a href="#">Contributions</a></li>
+        <li><a href="#">Librairie partenaire</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <p class="footer-bottom">© 2025 Le Cabinet des Lettres &nbsp;·&nbsp; Template Littéraire Classique</p>
+    </div>
+  </footer>
+
+</body>
+</html>

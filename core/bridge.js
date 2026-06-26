@@ -42,9 +42,10 @@ const {
   rejectWanPanelUi,
   WAN_PANEL_DENIED_MESSAGE,
   MATOMO_WAN_DENIED_MESSAGE,
+  requireNonWanOperator,
 } = require("./lib/request-local");
 const matomoLib = IS_PUBLIC ? null : require("./lib/matomo");
-const { loadLandingProfile, saveLandingProfile } = require("./lib/landing-profile");
+const { loadLandingProfile, saveLandingProfile, resolveLandingIndex } = require("./lib/landing-profile");
 const { walletDatStatus } = require("./lib/tajcoin-wallet-file");
 const { tajcoinNodesStatus } = require("./lib/tajcoin-conf-nodes");
 const { createLandingRouter, createTajcoinWalletRouter, createTajcoinNodesRouter } = require("./routes/node-admin");
@@ -87,13 +88,12 @@ const VIEW_DIR = path.join(ROOT_DIR, "panel", "view");
 const CV_DIR = path.join(ROOT_DIR, "panel", "cv");
 const BRAN_WEB_DIR = path.join(PLUGINS_DIR, "bran-web");
 const FUTUREMEN_DIR = path.join(ROOT_DIR, "panel", "futuremen");
+const PULSE_DIR = path.join(ROOT_DIR, "panel", "pulse");
 const SHARED_DIR = path.join(ROOT_DIR, "panel", "shared");
 const PUBLIC_LANDING = path.join(LANDING_DIR, "public", "index.html");
-const LANDING_INDEX = IS_PUBLIC
-  ? (fs.existsSync(PUBLIC_LANDING)
-      ? PUBLIC_LANDING
-      : path.join(LANDING_DIR, "index.html"))
-  : path.join(LANDING_DIR, "index.html");
+function getLandingIndex() {
+  return resolveLandingIndex({ landingDir: LANDING_DIR, dataDir: DATA_DIR, isPublic: IS_PUBLIC });
+}
 const walletRoutes = require("./routes/wallet");
 
 const app = express();
@@ -134,6 +134,7 @@ const cvStub = {
 let cvIndex;
 let cvAccessService;
 let futuremenRouter = null;
+let pulseRouter = null;
 let superCvRouter = null;
 if (IS_PUBLIC) {
   cvIndex = cvStub;
@@ -142,6 +143,7 @@ if (IS_PUBLIC) {
   const { CvSemanticIndex } = require("./lib/cv-index");
   const { CvAccessService } = require("./lib/cv-access");
   const { createFuturemenRouter } = require("./routes/futuremen");
+  const { createPulseRouter } = require("./routes/pulse");
   const { createSuperCvRouter } = require("./routes/super-cv");
   cvIndex = new CvSemanticIndex({
     dataDir: path.join(DATA_DIR, "super-cv"),
@@ -152,6 +154,7 @@ if (IS_PUBLIC) {
   });
   discover.setCvGate({ cvIndex, cvAccess: cvAccessService });
   futuremenRouter = createFuturemenRouter(discover);
+  pulseRouter = createPulseRouter(discover);
   superCvRouter = createSuperCvRouter(cvIndex, {
     pluginsDir: PLUGINS_DIR,
     cvAccess: cvAccessService,
@@ -589,6 +592,9 @@ if (!IS_PUBLIC && futuremenRouter) {
   });
   app.use("/api/futuremen", futuremenRouter);
 }
+if (!IS_PUBLIC && pulseRouter) {
+  app.use("/api/pulse", pulseRouter);
+}
 app.use("/api/view", viewRouter);
 app.use("/api/pin-service", pinServiceRouter);
 app.use("/api/pin-rewards", pinRewardsRouter);
@@ -726,13 +732,22 @@ if (!IS_PUBLIC) {
   app.get("/futuremen.html", (_req, res) => {
     res.redirect(301, "/futuremen");
   });
+
+  app.use("/pulse", requireNonWanOperator);
+  app.use("/pulse", express.static(PULSE_DIR));
+  app.get(["/pulse", "/pulse/"], requireNonWanOperator, (req, res) => {
+    servePublicPageWithMatomo(req, res, path.join(PULSE_DIR, "pulse.html"));
+  });
+  app.get("/pulse.html", (_req, res) => {
+    res.redirect(301, "/pulse");
+  });
 }
 
-app.use(express.static(LANDING_DIR));
-app.use("/shared", express.static(SHARED_DIR));
 app.get("/", (_req, res) => {
-  res.sendFile(LANDING_INDEX);
+  res.sendFile(getLandingIndex());
 });
+app.use(express.static(LANDING_DIR, { index: false }));
+app.use("/shared", express.static(SHARED_DIR));
 
 async function init() {
   console.log(
@@ -811,6 +826,7 @@ async function init() {
     console.log(`🎨 Éditeur   → ${baseUrl}/editor`);
     if (!IS_PUBLIC) {
       console.log(`⏳ Futuremen → ${baseUrl}/futuremen`);
+      console.log(`📡 Pulse     → ${baseUrl}/pulse (LAN uniquement)`);
     }
     if (IS_PUBLIC) console.log(`🌐 Bran Web  → ${baseUrl}/bran-web/`);
     console.log(`💰 Wallet    → ${baseUrl}/wallet`);
@@ -818,6 +834,7 @@ async function init() {
     console.log(`🎨 Éditeur   → ${baseUrl}/editor`);
     if (!IS_PUBLIC) {
       console.log(`⏳ Futuremen → ${baseUrl}/futuremen`);
+      console.log(`📡 Pulse     → ${baseUrl}/pulse (LAN uniquement)`);
     }
     if (IS_PUBLIC) console.log(`🌐 Bran Web  → ${baseUrl}/bran-web/`);
     console.log(`💰 Wallet    → ${baseUrl}/wallet`);

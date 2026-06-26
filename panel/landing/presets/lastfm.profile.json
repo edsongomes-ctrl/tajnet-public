@@ -1,0 +1,44 @@
+{
+  "theme": "music",
+  "pageTitle": "Last·FM Node — TajNet",
+  "nodeName": "LAST·FM",
+  "tagline": "Nœud souverain · fréquences IPFS · Tajcoin · Bran Web",
+  "heroTitle": "Où la musique<br><em>rencontre la chaîne</em>",
+  "heroLead": "Un nœud TajNet qui pulse au rythme des archives décentralisées — curaté par Echo (narration), Abel (culture sonore) et Scriptor (code & modularité).",
+  "primaryCtaLabel": "Entrer dans le TajPanel →",
+  "primaryCtaUrl": "/panel/",
+  "secondaryCtaLabel": "Composer avec Bran Web",
+  "secondaryCtaUrl": "/bran-web/edit.html",
+  "footerText": "LAST·FM NODE · TajNet public · Venardi × Futuremen",
+  "contactEmail": "",
+  "showDeploymentSection": false,
+  "agents": [
+    {
+      "id": "echo",
+      "code": "FM-004",
+      "name": "Echo",
+      "role": "Visionnaire créative",
+      "accent": "echo",
+      "image": "/themes/music/agents/echo.jpg",
+      "quote": "Chaque CID est une partition — le nœud n'est qu'une salle de concert où les échos se rencontrent."
+    },
+    {
+      "id": "abel",
+      "code": "FM-009",
+      "name": "Abel",
+      "role": "Phonographe · culture musicale",
+      "accent": "abel",
+      "image": "/themes/music/agents/abel.jpg",
+      "quote": "Du jazz au synthwave, de la soul à l'ambient — je traduis la blockchain en langage musical."
+    },
+    {
+      "id": "scriptor",
+      "code": "FM-010",
+      "name": "Scriptor",
+      "role": "Développeur JS",
+      "accent": "scriptor",
+      "image": "/themes/music/agents/scriptor.jpg",
+      "quote": "manifest.json · handlers · restart. Le reste, c'est du bruit de fond bien mixé."
+    }
+  ]
+}

@@ -15,11 +15,28 @@ FORBIDDEN_FILES=(
   .env
   GitHub.txt
   credentials.env
-  saopaulo.env
-  raspberry.env
   synchro_nas.sh
 )
 for f in "${FORBIDDEN_FILES[@]}"; do
+  if [ -f "${ROOT}/${f}" ]; then
+    warn "Fichier interdit présent : ${f}"
+  else
+    ok "Absent : ${f}"
+  fi
+done
+
+if [ -d "${ROOT}/secrets" ]; then
+  if find "${ROOT}/secrets" -name '*.env' ! -name '*.example' 2>/dev/null | grep -q .; then
+    warn "secrets/nodes/*.env présents dans l'arbre public"
+  else
+    ok "secrets/ sans fichiers .env réels"
+  fi
+else
+  ok "Absent : secrets/"
+fi
+
+# Legacy paths (racine)
+for f in saopaulo.env raspberry.env lastfmnode.env; do
   if [ -f "${ROOT}/${f}" ]; then
     warn "Fichier interdit présent : ${f}"
   else

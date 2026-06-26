@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mon Site GrapesJS - Futuriste</title>
+    <style>
+        /* --- RESET & VARIABLES FUTURISTES --- */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        :root {
+            --bg-dark: #0a0a12;
+            --bg-card: rgba(20, 20, 35, 0.7);
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff007f;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(0, 240, 255, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- HERO SECTION (Anciennement #izz5b) --- */
+        #izz5b {
+            padding: 100px 20px;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a0b2e 0%, var(--bg-dark) 100%);
+            border-bottom: 2px solid var(--neon-magenta);
+            position: relative;
+        }
+        #ipwur {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+        }
+        #irycl {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            color: var(--text-muted);
+        }
+        #ikgwr {
+            display: inline-block;
+            padding: 15px 45px;
+            background: transparent;
+            color: var(--neon-cyan);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        #ikgwr:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 25px var(--neon-cyan);
+        }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        #icpoh {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- ELEMENTS TEXTE --- */
+        #i3xnb { font-size: 2.8em; color: #fff; margin: 30px 0 15px; text-shadow: 0 0 8px var(--neon-magenta); }
+        #ixswk { font-size: 2em; color: var(--neon-cyan); margin: 25px 0 15px; }
+        #i09sv { font-size: 1.5em; color: #fff; margin: 20px 0 10px; }
+        #i1tyb { font-size: 1.1em; color: var(--text-muted); margin-bottom: 25px; }
+        
+        #ii8qa {
+            border-left: 4px solid var(--neon-magenta);
+            padding: 15px 20px;
+            margin: 30px 0;
+            background: rgba(255, 0, 127, 0.05);
+            font-style: italic;
+            color: #fff;
+        }
+        #i4a83 {
+            border: none;
+            border-top: 1px dashed var(--border-glow);
+            margin: 40px 0;
+        }
+
+        /* --- LIENS ET UTILITAIRES --- */
+        #iwaql, #ifv53w {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s;
+        }
+        #iwaql:hover, #ifv53w:hover { color: var(--neon-magenta); }
+        
+        #ih63m3 {
+            display: inline-block;
+            padding: 10px 25px;
+            background: var(--neon-magenta);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+        }
+
+        /* --- LISTES & SPACERS --- */
+        #isg0e1 { margin: 20px 0; padding-left: 20px; color: var(--text-muted); }
+        #i3j9gc { list-style: none; margin: 20px 0; }
+        #i6d23h, #iab6i8 { padding: 8px 0; color: #00ffaa; }
+        #iyh8mi { padding: 8px 0; color: var(--text-muted); }
+        
+        #iu1nlk { height: 20px; }
+        #i0y86m { height: 40px; }
+        #i6u6wa { height: 80px; }
+
+        /* --- GRILLE DE CARTES (Anciennement en bas) --- */
+        #il2x9 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        #ins4s, #i8ft3, #iy6nk {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            transition: transform 0.3s;
+        }
+        #ins4s:hover, #i8ft3:hover, #iy6nk:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+        }
+        #ieoi7, #iu0y2, #ioa7v { color: #fff; margin-top: 0; margin-bottom: 10px; }
+        #irezo, #idstl, #i7yrb { color: var(--text-muted); }
+
+        /* --- SECTION TARIFS --- */
+        #igpmd {
+            padding: 80px 0;
+        }
+        #iwlom {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #fff;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px var(--neon-magenta);
+        }
+        #ifta5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        
+        /* Style commun cartes tarifs */
+        #i56lv, #izvdn, #i1vr8 {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        #i7ndj, #i5h1g { color: var(--neon-cyan); margin-top: 0; }
+        #i6qlv { color: var(--neon-magenta); margin-top: 0; }
+
+        #i132h, #ifadt, #iujfi {
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #fff;
+            margin: 20px 0;
+        }
+        #i8vbk, #ivggg, #im47i { font-size: 0.4em; color: var(--text-muted); }
+        
+        #igjm5, #if20j, #ic1gb { list-style: none; padding: 0; margin: 30px 0; text-align: left; color: var(--text-muted); }
+        #it6br, #ib9dh, #ix2ml, #icjj2, #iqsxn, #iyhhe, #iyw0h, #izw8i, #i27zy {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        #iv5fb, #id9kh, #io6r4 {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            color: #fff;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        #iv5fb:hover, #io6r4:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* Focus sur l'offre Premium (izvdn) */
+        #izvdn {
+            border: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+            transform: scale(1.05);
+        }
+        #id9kh {
+            background: var(--neon-magenta);
+            border: none;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+        }
+        #id9kh:hover {
+            background: #fff;
+            color: var(--bg-dark);
+            box-shadow: 0 0 25px #fff;
+        }
+
+        /* --- MEDIAS & MAP --- */
+        #iejk { display: block; margin: 20px 0; filter: drop-shadow(0 0 8px var(--neon-cyan)); }
+        #ig6l { max-width: 100%; border: 1px solid var(--border-glow); border-radius: 8px; margin: 20px 0; }
+        #irip { border: 0; width: 100%; height: 350px; filter: invert(90%) hue-rotate(180deg); opacity: 0.6; border-radius: 8px; margin-top: 40px; }
+        #ieht { padding: 20px; min-height: 75px; text-align: center; color: var(--text-muted); font-size: 0.9em; border-top: 1px solid var(--border-glow); }
+    </style>
+</head>
+<body id="ikax">
+
+    <section id="izz5b">
+        <h1 id="ipwur">Titre Principal</h1>
+        <p id="irycl">Sous-titre accrocheur pour votre site</p>
+        <a href="#" id="ikgwr">Appel à l'action</a>
+    </section>
+
+    <section id="icpoh">
+        <div style="padding: 10px 0;">Insérez votre texte ici</div>
+        <a href="#" id="iwaql">Cliquez ici</a>
+        <a href="https://exemple.com" target="_blank" rel="noopener noreferrer" id="ifv53w">Lien externe →</a>
+        <a href="#" id="ih63m3">Lien bouton</a>
+        
+        <div id="iu1nlk"></div>
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3R5bGU9ImZpbGw6ICNmZjAwN2Y7Ij4KICAgICAgICA8cGF0aCBkPSIkOC41IDEsubTQuNSA2SDVtMTYgMVY1YTIgMiAwIDAgMC0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnoiPjwvcGF0aD4KICAgICAgPC9zdmc+" id="iejk"/>
+        <div id="i0y86m"></div>
+        
+        <ul id="i3j9gc">
+            <li id="i6d23h">⚡ Tâche terminée</li>
+            <li id="iab6i8">⚡ Autre tâche terminée</li>
+            <li id="iyh8mi">⬜ Tâche à faire</li>
+        </ul>
+        
+        <div id="i6u6wa"></div>
+        
+        <h1 id="i3xnb">Titre principal</h1>
+        <ul id="isg0e1">
+            <li>Premier élément</li>
+            <li>Deuxième élément</li>
+            <li>Troisième élément</li>
+        </ul>
+        
+        <h2 id="ixswk">Sous-titre</h2>
+        <h3 id="i09sv">Titre de section</h3>
+        <blockquote id="ii8qa">"Une citation inspirante ou importante"</blockquote>
+        <p id="i1tyb">Ceci est un paragraphe de texte. Vous pouvez le modifier en cliquant dessus.</p>
+        
+        <video allowfullscreen="allowfullscreen" controls id="ig6l">
+            <source src="" type="video/mp4"/>
+        </video>
+
+        <hr id="i4a83"/>
+
+        <section id="igpmd">
+            <h2 id="iwlom">Nos Tarifs</h2>
+            <div id="ifta5">
+                <div id="i56lv">
+                    <h3 id="i7ndj">Basique</h3>
+                    <p id="i132h">29€<span id="i8vbk">/mois</span></p>
+                    <ul id="igjm5">
+                        <li id="it6br">✓ Fonctionnalité 1</li>
+                        <li id="ib9dh">✓ Fonctionnalité 2</li>
+                        <li id="ix2ml">✓ Fonctionnalité 3</li>
+                    </ul>
+                    <button id="iv5fb">Choisir</button>
+                </div>
+                
+                <div id="izvdn">
+                    <h3 id="i6qlv">Premium</h3>
+                    <p id="ifadt">59€<span id="ivggg">/mois</span></p>
+                    <ul id="if20j">
+                        <li id="icjj2">✓ Tout du Basique</li>
+                        <li id="iqsxn">✓ Fonctionnalité 4</li>
+                        <li id="iyhhe">✓ Fonctionnalité 5</li>
+                    </ul>
+                    <button id="id9kh">Choisir</button>
+                </div>
+                
+                <div id="i1vr8">
+                    <h3 id="i5h1g">Entreprise</h3>
+                    <p id="iujfi">99€<span id="im47i">/mois</span></p>
+                    <ul id="ic1gb">
+                        <li id="iyw0h">✓ Tout du Premium</li>
+                        <li id="izw8i">✓ Support prioritaire</li>
+                        <li id="i27zy">✓ Personnalisation</li>
+                    </ul>
+                    <button id="io6r4">Choisir</button>
+                </div>
+            </div>
+        </section>
+
+        <div id="il2x9">
+            <div id="ins4s">
+                <h3 id="ieoi7">Carte 1</h3>
+                <p id="irezo">Description de la carte 1</p>
+            </div>
+            <div id="i8ft3">
+                <h3 id="iu0y2">Carte 2</h3>
+                <p id="idstl">Description de la carte 2</p>
+            </div>
+            <div id="iy6nk">
+                <h3 id="ioa7v">Carte 3</h3>
+                <p id="i7yrb">Description de la carte 3</p>
+            </div>
+        </div>
+    </section>
+
+    <iframe frameborder="0" src="https://maps.google.com/maps?q=Paris&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" id="irip"></iframe>
+    
+    <div id="ieht">Colonne / Zone de Footer © 2026</div>
+
+</body>
+</html>

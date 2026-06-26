@@ -1,0 +1,23 @@
+# IPFS déjà sur l'hôte (127.0.0.1:5001 / :8080) — pas de conteneur taj-ipfs.
+# core + tajcoin en network_mode: host → IPFS et RPC en 127.0.0.1.
+#
+# Usage :
+#   docker compose -f docker-compose.yml -f docker-compose.host-ipfs.yml \
+#     -f docker-compose.public.yml --profile embedded-tajcoin up -d --build
+
+services:
+  tajcoin:
+    network_mode: host
+
+  core:
+    network_mode: host
+    depends_on: !reset
+      - tajcoin
+    environment:
+      IPFS_API_URL: http://127.0.0.1:5001
+      IPFS_GATEWAY_URL: http://127.0.0.1:8080
+      PANEL_PORT: ${PANEL_PORT:-8090}
+      TAJCOIN_RPC_URL: http://127.0.0.1:12107
+      TAJCOIN_RPC_USER: ${TAJCOIN_RPC_USER:-tajnet}
+      TAJCOIN_RPC_PASSWORD: ${TAJCOIN_RPC_PASSWORD:-changeme}
+      TAJCOIN_COOKIE_FILE: ""
