@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TajNet — Connexion Wallet</title>
+  <link rel="stylesheet" href="/wallet/wallet.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card login-card-wide">
+      <p><a href="/panel/">← TajPanel</a></p>
+      <h1>Wallet Tajcoin</h1>
+      <p id="loginIntro">Choisissez le nœud RPC, puis connectez-vous.</p>
+
+      <section class="rpc-panel">
+        <h2>Nœud RPC Tajcoin</h2>
+        <div class="form-group">
+          <label for="rpcProfile">Profil</label>
+          <select id="rpcProfile"></select>
+        </div>
+
+        <div id="customRpcFields" class="hidden">
+          <div class="form-group">
+            <label for="rpcUrl">URL RPC</label>
+            <input type="url" id="rpcUrl" placeholder="http://127.0.0.1:12107">
+          </div>
+          <div class="form-group">
+            <label for="rpcUser">Utilisateur RPC</label>
+            <input type="text" id="rpcUser" placeholder="tajcoinrpc">
+          </div>
+          <div class="form-group">
+            <label for="rpcPassword">Mot de passe RPC</label>
+            <input type="password" id="rpcPassword" placeholder="••••••••">
+          </div>
+        </div>
+
+        <div class="rpc-actions">
+          <button type="button" id="testRpcBtn" class="btn">Tester la connexion RPC</button>
+        </div>
+        <div id="rpcStatus" class="rpc-status hidden"></div>
+      </section>
+
+      <section id="personalWalletPanel" class="personal-wallet-panel">
+        <h2 id="personalWalletTitle">Wallet personnel</h2>
+        <p id="personalWalletHint">
+          MetaMask ou Brave Wallet — compte Tajcoin isolé lié à votre adresse Ethereum.
+        </p>
+        <div class="login-actions">
+          <button type="button" id="connectBtn" class="btn btn-primary">Connecter MetaMask</button>
+          <button type="button" id="createBtn" class="btn">Créer un wallet Tajcoin</button>
+        </div>
+      </section>
+
+      <section id="nodeWalletSection" class="personal-wallet-panel hidden">
+        <h2>Wallet du nœud (opérateur)</h2>
+        <p>Compte <code>tajpanel</code> — lecture seule, réservé à <strong>localhost</strong> uniquement.</p>
+        <div class="login-actions">
+          <button type="button" id="nodeBtn" class="btn">Consulter le wallet nœud</button>
+        </div>
+      </section>
+
+      <div id="statusBox" class="info-box hidden"></div>
+
+      <div class="info-box">
+        <strong>Sécurité LAN</strong> — le wallet nœud et ses paiements automatiques ne sont pas exposés au réseau local. Seul l'opérateur sur la machine (<code>localhost</code>) y accède sans MetaMask.<br><br>
+        <strong>Depuis le LAN</strong> — MetaMask prouve votre identité ; les TAJ restent sur le réseau Tajcoin (compte <code>user_…</code>).<br><br>
+        <strong>Opérateur à distance</strong> — tunnel SSH : <code>ssh -L 8090:127.0.0.1:8090 user@serveur</code> puis <code>localhost:8090</code>.
+      </div>
+    </div>
+  </div>
+
+  <script src="/wallet/wallet-provider.js"></script>
+  <script src="/wallet/auth-metamask.js"></script>
+  <script src="/wallet/login.js"></script>
+</body>
+</html>

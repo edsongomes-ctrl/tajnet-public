@@ -1,0 +1,90 @@
+sudo apt-get update
+sudo apt-get install \
+  qtbase5-dev qt5-qmake qtbase5-dev-tools qttools5-dev-tools \
+  build-essential \
+  libboost-dev libboost-system-dev libboost-filesystem-dev \
+  libboost-program-options-dev libboost-thread-dev \
+  libssl-dev libdb++-dev libminiupnpc-dev libqrencode-dev \
+  devscripts debhelper
+
+
+
+cd ~/tajcoin-master
+debuild -us -uc -b
+
+
+
+cd ..
+sudo dpkg -i tajcoin-qt_*_amd64.deb
+
+
+
+
+
+
+------------------------
+
+
+Traitement des actions différées (« triggers ») pour libc-bin (2.36-9+deb12u13) ...
+debianvirtuel@debian-virtuel:~/Téléchargements$ cd /home/debianvirtuel/Bureau/source
+debianvirtuel@debian-virtuel:~/Bureau/source$ ls
+tajcoin-master
+debianvirtuel@debian-virtuel:~/Bureau/source$ cd ~/tajcoin-master
+debuild -us -uc -b
+bash: cd: /home/debianvirtuel/tajcoin-master: Aucun fichier ou dossier de ce type
+debuild: fatal error at line 679:
+cannot find readable debian/changelog anywhere!
+Are you in the source code tree?
+debianvirtuel@debian-virtuel:~/Bureau/source$ ls
+tajcoin-master
+debianvirtuel@debian-virtuel:~/Bureau/source$ cd tajcoin-master
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master$ debuild -us -uc -b
+debuild: fatal error at line 679:
+cannot find readable debian/changelog anywhere!
+Are you in the source code tree?
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master$ ls
+build  contrib  debian  doc  share  src
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master$ cd debian
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master/debian$ ls
+source  tajcoin-qt
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master/debian$ debuild -us -uc -b
+debuild: fatal error at line 679:
+cannot find readable debian/changelog anywhere!
+Are you in the source code tree?
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master/debian$ cd source
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master/debian/source$ ls
+format
+debianvirtuel@debian-virtuel:~/Bureau/source/tajcoin-master/debian/source$ debuild -us -uc -b
+debuild: fatal error at line 679:
+cannot find readable debian/changelog anywhere!
+Are you in the source code tree?
+
+
+
+____________________
+
+
+
+
+cd ~/Bureau/source
+rm -rf tajcoin-master        # pour repartir propre
+unzip tajcoin-master.zip
+cd tajcoin-master
+ls debian                    # tu dois voir: changelog, control, rules, ...
+
+
+
+ls debian
+
+
+
+
+sudo apt-get install \
+  qtbase5-dev qt5-qmake qtbase5-dev-tools qttools5-dev-tools \
+  build-essential \
+  libboost-dev libboost-system-dev libboost-filesystem-dev \
+  libboost-program-options-dev libboost-thread-dev \
+  libssl-dev libdb++-dev libminiupnpc-dev libqrencode-dev \
+  devscripts debhelper
+
+debuild -us -uc -b

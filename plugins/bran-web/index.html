@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enfants de la Forêt | Brandon Stark</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="theme-enfants-foret"
+      data-header-alt="Brandon Stark — Isaac Hempstead-Wright (CC BY-SA, Wikimedia Commons)"
+      data-footer-alt="Pied de page"
+      data-console-log="Bran Web — Brandon Stark : chargement réussi.">
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <nav>
+        <a href="#" class="nav-logo">BRAN<span>WOOD</span></a>
+        <ul class="nav-links">
+            <li><a href="#bio-container">I / GREFFÉ</a></li>
+            <li><a href="#article-container">II / MÉMOIRE</a></li>
+            <li><a href="edit.html">✎ ÉDITER</a></li>
+        </ul>
+        <div class="nav-status"><div class="status-dot"></div>WEIRWOOD · ACTIF</div>
+    </nav>
+
+    <div class="app-wrapper">
+        <div id="container" class="book-pages">
+            <div class="book-header">
+                <span class="running-title">Enfants de la Forêt — Archive Branwood</span>
+                <span class="running-page">Brandon Stark · Troisième Œil</span>
+            </div>
+
+            <section id="bio-container" class="markdown-body agent-bio">
+                <p class="loader">Éveil du greffé...</p>
+            </section>
+
+            <hr class="divider">
+
+            <article id="article-container" class="markdown-body">
+                <p class="loader">Lecture de la mémoire profonde...</p>
+            </article>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

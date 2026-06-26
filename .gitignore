@@ -1,0 +1,48 @@
+# Données runtime (volumes Docker)
+data/**/*
+!data/.gitkeep
+!data/tls/.gitkeep
+wallet/**/*
+!wallet/.gitkeep
+
+# Node
+node_modules/
+core/node_modules/
+
+# Archives de release
+dist/
+
+# Script NAS personnel (voir scripts/synchro_nas.example.sh)
+synchro_nas.sh
+
+# Environnement
+.env
+GitHub.txt
+credentials.env
+saopaulo.env
+raspberry.env
+lastfmnode.env
+*.env.local
+
+# Certificats TLS (générés localement — ne pas committer)
+data/tls/*
+!data/tls/.gitkeep
+
+.DS_Store
+.cursor/
+
+# Applications Tajcoin — binaires inclus dans le dépôt (bootstrap reste sur Taj-Coin/tajcoin)
+applications/**/*.torrent
+applications/**/*unstripped*
+
+# Binaires / sources Tajcoin lourds (télécharger séparément)
+Tajcoin/source/
+Tajcoin/bootstrap-900600.zip
+Tajcoin/tajcoin-master.zip
+Tajcoin/*.deb
+Tajcoin/data/**/*
+!Tajcoin/data/.gitkeep
+
+# Uploads plugins
+plugins/**/uploads/*
+!plugins/**/uploads/.gitkeep

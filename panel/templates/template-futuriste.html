@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS — Template Futuriste</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --neon-cyan: #00f5ff;
+      --neon-pink: #ff006e;
+      --neon-purple: #7b00ff;
+      --dark-bg: #01050f;
+      --dark-panel: #040d1a;
+      --grid-color: rgba(0, 245, 255, 0.06);
+      --text-dim: rgba(0, 245, 255, 0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--neon-cyan);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* ─── GRID BACKGROUND ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── SCANLINE OVERLAY ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.15) 2px,
+        rgba(0,0,0,0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ─── GLOW ORBS ─── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 500px; height: 500px; background: var(--neon-cyan); top: -100px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: var(--neon-pink); bottom: 0; right: -50px; animation-delay: -4s; }
+    .orb-3 { width: 300px; height: 300px; background: var(--neon-purple); top: 50%; left: 50%; animation-delay: -8s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      border-bottom: 1px solid rgba(0,245,255,0.15);
+      background: rgba(1,5,15,0.85);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav-logo {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.4rem;
+      letter-spacing: 0.3em;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 20px var(--neon-cyan);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--neon-pink); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    .nav-links a:hover { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+
+    .nav-status {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--neon-pink);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--neon-pink);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-pink);
+      animation: blink 1.5s step-start infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; z-index: 2;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 8rem 3rem 4rem;
+      max-width: 900px;
+    }
+
+    .hero-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--neon-pink);
+      text-shadow: 0 0 10px var(--neon-pink);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s ease forwards;
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s ease forwards;
+    }
+    .hero-title .line-glow {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--neon-cyan);
+      text-shadow: none;
+    }
+    .hero-title .line-solid {
+      display: block;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(0,245,255,0.3);
+    }
+    .hero-title .line-accent {
+      display: block;
+      color: var(--neon-pink);
+      text-shadow: 0 0 30px var(--neon-pink);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-dim);
+      max-width: 480px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s ease forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s ease forwards;
+    }
+
+    .btn-primary {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2.5rem;
+      background: transparent;
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--neon-cyan);
+      transform: translateX(-101%);
+      transition: transform 0.3s ease;
+    }
+    .btn-primary:hover { color: var(--dark-bg); }
+    .btn-primary:hover::before { transform: translateX(0); }
+
+    .btn-secondary {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      background: transparent;
+      border: 1px solid rgba(0,245,255,0.2);
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: border-color 0.3s, color 0.3s;
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    }
+    .btn-secondary:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      position: relative; z-index: 2;
+      display: flex; gap: 0;
+      border-top: 1px solid rgba(0,245,255,0.1);
+      border-bottom: 1px solid rgba(0,245,255,0.1);
+      background: rgba(4,13,26,0.8);
+      backdrop-filter: blur(10px);
+    }
+    .stat-item {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      border-right: 1px solid rgba(0,245,255,0.1);
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.8rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 15px var(--neon-cyan);
+    }
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* ─── SECTION ─── */
+    section {
+      position: relative; z-index: 2;
+      padding: 6rem 3rem;
+    }
+
+    .section-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--neon-pink);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    /* ─── CARDS GRID ─── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: rgba(0,245,255,0.08);
+      border: 1px solid rgba(0,245,255,0.08);
+      margin-top: 4rem;
+    }
+
+    .card {
+      background: var(--dark-panel);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+    .card:hover { background: rgba(0,245,255,0.04); }
+    .card:hover::before { transform: translateX(100%); }
+
+    .card-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 20px var(--neon-cyan);
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .card-num {
+      position: absolute;
+      bottom: 1.5rem; right: 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: rgba(0,245,255,0.2);
+    }
+
+    /* ─── TERMINAL BLOCK ─── */
+    .terminal {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(0,245,255,0.15);
+      padding: 2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--neon-cyan);
+      line-height: 2;
+      position: relative;
+      margin-top: 3rem;
+    }
+    .terminal::before {
+      content: '> SYSTEM TERMINAL v4.2.1';
+      display: block;
+      font-size: 0.65rem;
+      color: var(--neon-pink);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0,245,255,0.1);
+    }
+    .terminal-line { display: flex; gap: 1rem; }
+    .terminal-prompt { color: var(--neon-pink); }
+    .terminal-output { color: var(--text-dim); }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--neon-cyan);
+      vertical-align: text-bottom;
+      animation: blink 1s step-start infinite;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 2;
+      padding: 3rem;
+      border-top: 1px solid rgba(0,245,255,0.08);
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(1,5,15,0.9);
+    }
+    .footer-logo {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+    }
+    .footer-copy {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: rgba(0,245,255,0.2);
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <nav>
+    <a href="#" class="nav-logo">NEX<span>US</span></a>
+    <ul class="nav-links">
+      <li><a href="#">01 / SYSTÈME</a></li>
+      <li><a href="#">02 / PROTOCOLE</a></li>
+      <li><a href="#">03 / RÉSEAU</a></li>
+      <li><a href="#">04 / CONTACT</a></li>
+    </ul>
+    <div class="nav-status"><div class="status-dot"></div>SYS.ONLINE</div>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-tag">// INITIALISATION — SÉQUENCE 01</p>
+    <h1 class="hero-title">
+      <span class="line-glow">DEMAIN</span>
+      <span class="line-solid">COMMENCE</span>
+      <span class="line-accent">ICI.</span>
+    </h1>
+    <p class="hero-desc">
+      Infrastructure de nouvelle génération. Protocoles avancés. Architecture distribuée conçue pour les systèmes du futur.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">ACCÉDER AU SYSTÈME</a>
+      <a href="#" class="btn-secondary">EN SAVOIR PLUS</a>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value">99.8%</span>
+      <span class="stat-label">DISPONIBILITÉ</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">4.2ms</span>
+      <span class="stat-label">LATENCE MOYENNE</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">2.4THz</span>
+      <span class="stat-label">TRAITEMENT</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">∞</span>
+      <span class="stat-label">ÉVOLUTIVITÉ</span>
+    </div>
+  </div>
+
+  <section>
+    <p class="section-tag">// MODULE CORE</p>
+    <h2 class="section-title">CAPACITÉS SYSTÈME</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">[AI]</div>
+        <h3 class="card-title">Intelligence Artificielle</h3>
+        <p class="card-text">Algorithmes adaptatifs de dernière génération. Apprentissage en temps réel sur flux continus de données.</p>
+        <span class="card-num">// 001</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">[Σ]</div>
+        <h3 class="card-title">Cryptographie Avancée</h3>
+        <p class="card-text">Protocoles post-quantiques. Chiffrement bout-en-bout sur tous les noeuds du réseau distribué.</p>
+        <span class="card-num">// 002</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">[∞]</div>
+        <h3 class="card-title">Scalabilité Infinie</h3>
+        <p class="card-text">Architecture microservices auto-hébergée. Déploiement instantané sur l'ensemble du cluster global.</p>
+        <span class="card-num">// 003</span>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-line"><span class="terminal-prompt">$</span><span>nexus init --mode=prod --env=global</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ Chargement des modules core…</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ Connexion aux noeuds [47/47] ✓</span></div>
+      <div class="terminal-line"><span class="terminal-output">→ Protocoles sécurisés activés ✓</span></div>
+      <div class="terminal-line"><span class="terminal-prompt">$</span><span><span class="cursor"></span></span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">NEXUS SYSTEMS © 2025</span>
+    <span class="footer-copy">TEMPLATE FUTURISTE — v1.0.0</span>
+  </footer>
+</body>
+</html>

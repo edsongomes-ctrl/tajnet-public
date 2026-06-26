@@ -1,0 +1,14 @@
+# Override for TajNet public edition — no Matomo, TAJNET_EDITION=public
+services:
+  core:
+    environment:
+      TAJNET_EDITION: public
+      MATOMO_URL: ""
+      MATOMO_PUBLIC_URL: ""
+      MATOMO_SITE_ID: ""
+
+  db-matomo:
+    profiles: ["never"]
+
+  matomo:
+    profiles: ["never"]

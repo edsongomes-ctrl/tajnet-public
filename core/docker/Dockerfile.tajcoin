@@ -1,0 +1,30 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TAJCOIN_DATADIR=/data/tajcoin
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    unzip \
+    wget \
+    libboost-chrono1.71.0 \
+    libboost-filesystem1.71.0 \
+    libboost-program-options1.71.0 \
+    libboost-thread1.71.0 \
+    libdb5.3++ \
+    libssl1.1 \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG TAJCOIND_URL=https://github.com/Taj-Coin/tajcoin/releases/download/v1.1/tajcoind-20.04-v1.1.zip
+RUN wget -qO /tmp/tajcoind.zip "${TAJCOIND_URL}" \
+    && unzip -jo /tmp/tajcoind.zip tajcoind -d /usr/local/bin/ \
+    && chmod +x /usr/local/bin/tajcoind \
+    && rm /tmp/tajcoind.zip
+
+COPY Tajcoin/tajcoin.docker.conf /etc/tajcoin/tajcoin.docker.conf
+COPY scripts/tajcoind-entrypoint.sh /usr/local/bin/tajcoind-entrypoint.sh
+RUN chmod +x /usr/local/bin/tajcoind-entrypoint.sh
+
+EXPOSE 10712 12107
+
+ENTRYPOINT ["tajcoind-entrypoint.sh"]

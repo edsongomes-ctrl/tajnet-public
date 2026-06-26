@@ -1,0 +1,22 @@
+# Override VPS — tajcoind déjà sur l'hôte (ex. conteneur tajcoin-node)
+# Usage :
+#   docker compose -f docker-compose.yml -f docker-compose.vps.yml \
+#     --profile embedded-ipfs up -d --build
+
+services:
+  ipfs:
+    ports:
+      - "5001:5001"
+      - "8080:8080"
+
+  core:
+    network_mode: host
+    environment:
+      TAJNODE_MODE: ${TAJNODE_MODE:-vps}
+      TRUST_PROXY: ${TRUST_PROXY:-}
+      TLS_ENABLED: ${TLS_ENABLED:-}
+      TLS_PORT: ${TLS_PORT:-443}
+      TLS_CN: ${TLS_CN:-}
+      TLS_SAN: ${TLS_SAN:-}
+
+  # matomo : port localhost via MATOMO_HOST_PORT dans .env (8877 sur VPS si 8888 occupé)

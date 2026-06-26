@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fiche publication TajNet — métadonnées IPFS et lien blockchain">
+  <title>Publication — TajNet View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/view/view.css">
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav" aria-label="Navigation">
+      <a href="/" class="nav-logo">TAJ<span>NET</span></a>
+      <div class="nav-links">
+        <a href="/panel/">TajPanel</a>
+        <a href="/panel/#discover">Discover</a>
+      </div>
+    </nav>
+
+    <div id="viewLoading" class="state-box">Chargement de la fiche publication…</div>
+    <div id="viewError" class="state-box error hidden" role="alert"></div>
+    <main id="viewRoot"></main>
+  </div>
+  <script src="/wallet/wallet-provider.js"></script>
+  <script src="/wallet/auth-metamask.js"></script>
+  <script src="/panel/taj-pay.js"></script>
+  <script src="/view/view.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+services:
+  # IPFS embarqué — uniquement si vous N'avez PAS déjà Kubo/IPFS sur l'hôte.
+  # Lancer avec : docker compose -f docker-compose.yml -f docker-compose.embedded.yml --profile embedded-ipfs up -d
+  ipfs:
+    profiles:
+      - embedded-ipfs
+    image: ipfs/kubo:latest
+    container_name: taj-ipfs
+    restart: unless-stopped
+    volumes:
+      - ./data/ipfs:/data/ipfs
+      - ./core/ipfs-config:/container/ipfs-config:ro
+    environment:
+      IPFS_PROFILE: server
+
+  # Tajcoin embarqué — uniquement si vous N'avez PAS déjà tajcoind sur l'hôte.
+  tajcoin:
+    profiles:
+      - embedded-tajcoin
+    build:
+      context: .
+      dockerfile: core/docker/Dockerfile.tajcoin
+    container_name: taj-tajcoin
+    restart: unless-stopped
+    environment:
+      TAJCOIN_DATADIR: /data/tajcoin
+      TAJCOIN_BOOTSTRAP: /bootstrap/bootstrap-900600.zip
+      TAJCOIN_RPC_USER: ${TAJCOIN_RPC_USER:-tajnet}
+      TAJCOIN_RPC_PASSWORD: ${TAJCOIN_RPC_PASSWORD:-changeme}
+    volumes:
+      - ./Tajcoin/data:/data/tajcoin
+      - ./Tajcoin/bootstrap-900600.zip:/bootstrap/bootstrap-900600.zip:ro
+
+  core:
+    build:
+      context: .
+      dockerfile: core/docker/Dockerfile
+    container_name: taj-core
+    restart: unless-stopped
+    # Accès direct à IPFS/Tajcoin sur 127.0.0.1 (daemons hôte)
+    network_mode: host
+    environment:
+      IPFS_API_URL: ${IPFS_API_URL:-http://127.0.0.1:5001}
+      IPFS_GATEWAY_URL: ${IPFS_GATEWAY_URL:-http://127.0.0.1:8080}
+      PANEL_PORT: ${PANEL_PORT:-8090}
+      PLUGINS_DIR: /tajnet/plugins
+      TAJNET_DATA_DIR: /tajnet/data
+      TAJCOIN_DATA_DIR: /host-tajcoin
+      TAJCOIN_RPC_URL: ${TAJCOIN_RPC_URL:-http://127.0.0.1:12107}
+      TAJCOIN_RPC_USER: ${TAJCOIN_RPC_USER:-}
+      TAJCOIN_RPC_PASSWORD: ${TAJCOIN_RPC_PASSWORD:-}
+      TAJCOIN_COOKIE_FILE: ${TAJCOIN_COOKIE_FILE:-}
+      MATOMO_URL: ${MATOMO_URL:-http://127.0.0.1:8888}
+      MATOMO_PUBLIC_URL: ${MATOMO_PUBLIC_URL:-}
+      MATOMO_SITE_ID: ${MATOMO_SITE_ID:-1}
+      MATOMO_TRUSTED_HOSTS: ${MATOMO_TRUSTED_HOSTS:-}
+      DISCOVER_NODE_ENDPOINT: ${DISCOVER_NODE_ENDPOINT:-}
+      GUARD_PRICE_TAJ: ${GUARD_PRICE_TAJ:-1}
+      GUARD_MIN_CONFIRMATIONS: ${GUARD_MIN_CONFIRMATIONS:-1}
+      GUARD_BYPASS: ${GUARD_BYPASS:-false}
+      ANNOUNCE_ENABLED: ${ANNOUNCE_ENABLED:-true}
+      ANNOUNCE_ACCOUNT: ${ANNOUNCE_ACCOUNT:-tajannounce}
+      DISCOVER_ENABLED: ${DISCOVER_ENABLED:-false}
+      WALLET_LOCAL_LAN: ${WALLET_LOCAL_LAN:-}
+      WAN_PANEL_ACCESS: ${WAN_PANEL_ACCESS:-}
+      TAJNODE_MODE: ${TAJNODE_MODE:-}
+      PUBLIC_PANEL: ${PUBLIC_PANEL:-}
+      TRUST_PROXY: ${TRUST_PROXY:-}
+      TLS_ENABLED: ${TLS_ENABLED:-}
+      TLS_PORT: ${TLS_PORT:-8443}
+      TLS_CERT_FILE: ${TLS_CERT_FILE:-}
+      TLS_KEY_FILE: ${TLS_KEY_FILE:-}
+      TLS_HTTP_REDIRECT: ${TLS_HTTP_REDIRECT:-}
+      TLS_HTTP_ALSO: ${TLS_HTTP_ALSO:-}
+      TLS_CN: ${TLS_CN:-}
+      TLS_SAN: ${TLS_SAN:-}
+      TLS_KEY_BITS: ${TLS_KEY_BITS:-2048}
+    volumes:
+      - ${TAJCOIN_HOST_DATADIR:-./Tajcoin/data}:/host-tajcoin
+      - ./plugins:/tajnet/plugins
+      - ./data:/tajnet/data
+
+  db-matomo:
+    image: mariadb:10.6
+    container_name: taj-matomo-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MATOMO_DB_NAME:-matomo}
+      MYSQL_USER: ${MATOMO_DB_USER:-matomo}
+      MYSQL_PASSWORD: ${MATOMO_DB_PASSWORD:-changeme}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - ./data/matomo_db:/var/lib/mysql
+
+  matomo:
+    image: matomo:latest
+    container_name: taj-matomo
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MATOMO_HOST_PORT:-8888}:80"
+    environment:
+      MATOMO_DATABASE_HOST: db-matomo
+      MATOMO_DATABASE_USERNAME: ${MATOMO_DB_USER:-matomo}
+      MATOMO_DATABASE_PASSWORD: ${MATOMO_DB_PASSWORD:-changeme}
+      MATOMO_DATABASE_DBNAME: ${MATOMO_DB_NAME:-matomo}
+    volumes:
+      - ./data/matomo:/var/www/html
+    depends_on:
+      - db-matomo

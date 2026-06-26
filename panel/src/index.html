@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TajPanel — TajNet Graine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/panel/style.css">
+</head>
+<body>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <nav class="top-nav">
+    <a href="/panel/" class="nav-logo">TAJ<span>PANEL</span></a>
+    <div class="nav-status" id="navStatus">
+      <span class="status-dot" id="navStatusDot"></span>
+      <span id="navStatusText">INIT…</span>
+    </div>
+  </nav>
+
+  <header class="hero hero-compact">
+    <div class="hero-row">
+      <div class="hero-text">
+        <p class="hero-tag">// TAJNET GRAINE v0.1</p>
+        <h1 class="hero-title-compact">Nœud souverain</h1>
+        <p class="hero-desc">IPFS · Tajcoin · Guard · Discover — panel local, sans cloud.</p>
+      </div>
+      <div class="hero-actions">
+        <button type="button" class="btn-primary btn-sm" onclick="refreshStatus()">Actualiser</button>
+        <a href="/editor" class="btn-secondary btn-sm">Éditeur ↗</a>
+        <a href="/wallet/" class="btn-secondary btn-sm">Wallet ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value" id="statEngine">—</span>
+      <span class="stat-label">Moteur</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statIpfs">—</span>
+      <span class="stat-label">IPFS</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statTajcoin">—</span>
+      <span class="stat-label">Tajcoin</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statDiscover">—</span>
+      <span class="stat-label">Discover</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statCv">—</span>
+      <span class="stat-label">Profils CV</span>
+    </div>
+  </div>
+
+  <div class="panel-layout">
+    <aside class="panel-sidebar" aria-label="Catégories">
+      <p class="sidebar-label">Catégories</p>
+      <nav class="category-nav">
+        <button type="button" class="category-btn active" data-cat="overview">
+          <span class="cat-icon">◉</span>
+          <span class="cat-text">
+            <span class="cat-name">Vue d'ensemble</span>
+            <span class="cat-desc">État & raccourcis</span>
+          </span>
+        </button>
+        <button type="button" class="category-btn" data-cat="security">
+          <span class="cat-icon">⛨</span>
+          <span class="cat-text">
+            <span class="cat-name">Sécurité</span>
+            <span class="cat-desc">Guard & accès</span>
+          </span>
+        </button>
+        <button type="button" class="category-btn" data-cat="publish">
+          <span class="cat-icon">↑</span>
+          <span class="cat-text">
+            <span class="cat-name">Publication</span>
+            <span class="cat-desc">IPFS & analytics</span>
+          </span>
+        </button>
+        <button type="button" class="category-btn" data-cat="network">
+          <span class="cat-icon">⛓</span>
+          <span class="cat-text">
+            <span class="cat-name">Réseau</span>
+            <span class="cat-desc">Discover & blockchain</span>
+          </span>
+        </button>
+        <button type="button" class="category-btn" data-cat="addons">
+          <span class="cat-icon">◈</span>
+          <span class="cat-text">
+            <span class="cat-name">Add-Ons</span>
+            <span class="cat-desc">Super CV · Bran Web</span>
+          </span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="panel-content">
+      <!-- ─── VUE D'ENSEMBLE ─── -->
+      <section class="category-panel active" data-category="overview">
+        <header class="category-header">
+          <p class="section-tag">// SYSTÈME</p>
+          <h2 class="section-title">Vue d'ensemble</h2>
+        </header>
+
+        <div class="terminal terminal-hero">
+          <div id="status" class="terminal-body">Chargement du moteur…</div>
+          <div id="guard" class="guard-status"></div>
+        </div>
+
+        <div class="category-block">
+          <h3 class="block-title">Accès rapide</h3>
+          <div class="cards-grid cards-grid-3">
+            <article class="card card-link">
+              <div class="card-icon">[₮]</div>
+              <h3 class="card-title">Wallet Tajcoin</h3>
+              <p class="card-text">Solde, envoi, QR — wallet nœud local.</p>
+              <a href="/wallet/" class="btn-primary btn-sm">Ouvrir →</a>
+            </article>
+            <article class="card card-link">
+              <div class="card-icon">[◈]</div>
+              <h3 class="card-title">Éditeur visuel</h3>
+              <p class="card-text">GrapesJS — publish IPFS + Matomo.</p>
+              <a href="/editor" class="btn-primary btn-sm">Ouvrir →</a>
+            </article>
+            <article class="card">
+              <div class="card-icon">[⚙]</div>
+              <h3 class="card-title">Plugins</h3>
+              <ul id="plugins" class="plugin-list"></ul>
+            </article>
+          </div>
+        </div>
+
+        <div class="category-block operator-localhost hidden" id="operatorLocalhostBlock">
+          <h3 class="block-title">Administration opérateur (localhost)</h3>
+          <p class="tagline">Textes hero et pied de page — réservé à l'opérateur du nœud. Le contenu technique reste intégré à la page.</p>
+
+          <details class="operator-details" open>
+            <summary>Page d'accueil (<code>/</code>)</summary>
+            <div class="operator-form">
+              <label>Nom du nœud <input type="text" id="landingNodeName" maxlength="32"></label>
+              <label>Accroche <input type="text" id="landingTagline"></label>
+              <label>Titre hero <textarea id="landingHeroTitle" rows="2"></textarea></label>
+              <label>Texte hero <textarea id="landingHeroLead" rows="3"></textarea></label>
+              <label>Bouton principal <input type="text" id="landingPrimaryLabel"></label>
+              <label>URL bouton principal <input type="text" id="landingPrimaryUrl"></label>
+              <label>Bouton secondaire <input type="text" id="landingSecondaryLabel"></label>
+              <label>URL bouton secondaire <input type="text" id="landingSecondaryUrl"></label>
+              <label>Pied de page <input type="text" id="landingFooterText"></label>
+              <label>Contact (email) <input type="email" id="landingContactEmail" placeholder="info@tajnet.cloud"></label>
+              <label class="checkbox-row">
+                <input type="checkbox" id="landingShowDeploy" checked>
+                Afficher la section « Déploiement »
+              </label>
+              <button type="button" class="btn-primary btn-sm" onclick="saveLandingProfile()">Enregistrer la page d'accueil</button>
+              <span id="landingSaveStatus" class="operator-status"></span>
+            </div>
+          </details>
+
+          <details class="operator-details">
+            <summary>Wallet Tajcoin (<code>wallet.dat</code>)</summary>
+            <div class="operator-form">
+              <p id="walletDatStatus" class="operator-status">Chargement…</p>
+              <div class="operator-actions">
+                <button type="button" class="btn-secondary btn-sm" onclick="exportWalletDat()">Exporter wallet.dat</button>
+                <label class="btn-secondary btn-sm file-btn">
+                  Importer wallet.dat
+                  <input type="file" id="walletDatImport" accept=".dat,application/octet-stream" hidden onchange="importWalletDat(this)">
+                </label>
+              </div>
+              <p class="tagline">Après import, redémarrez tajcoind. Une sauvegarde <code>.bak-*</code> est créée automatiquement.</p>
+              <span id="walletDatActionStatus" class="operator-status"></span>
+            </div>
+          </details>
+
+          <details class="operator-details">
+            <summary>Peers Tajcoin (<code>tajcoin.conf</code>)</summary>
+            <div class="operator-form">
+              <p id="tajcoinNodesStatus" class="operator-status">Chargement…</p>
+              <ul id="tajcoinNodeList" class="tajcoin-node-list"></ul>
+              <label>Ajouter un nœud (IP ou IP:10712)
+                <input type="text" id="tajcoinNodeInput" placeholder="149.50.102.187">
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" id="tajcoinNodeConnectNow" checked>
+                Connecter immédiatement via RPC (sinon au prochain redémarrage)
+              </label>
+              <div class="operator-actions">
+                <button type="button" class="btn-primary btn-sm" onclick="addTajcoinNode()">Ajouter au tajcoin.conf</button>
+              </div>
+              <label>Import en masse (une adresse par ligne)
+                <textarea id="tajcoinNodesBulk" rows="4" placeholder="149.50.102.187&#10;185.255.123.171:10712"></textarea>
+              </label>
+              <button type="button" class="btn-secondary btn-sm" onclick="importTajcoinNodesBulk()">Importer la liste</button>
+              <span id="tajcoinNodesActionStatus" class="operator-status"></span>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ─── SÉCURITÉ ─── -->
+      <section class="category-panel" data-category="security">
+        <header class="category-header">
+          <p class="section-tag">// SAS D'ACCÈS</p>
+          <h2 class="section-title">Guard Daemon</h2>
+          <p class="tagline">Payez en Tajcoin pour déverrouiller publish IPFS, upload et indexation — paiement intégré sans quitter cette page</p>
+        </header>
+        <div class="panel-inner" id="guardPanel">
+          <div id="guardInfo" class="guard-info">Chargement…</div>
+          <div id="guardPayment" class="guard-payment hidden"></div>
+          <div class="guard-actions">
+            <button type="button" class="btn-primary btn-sm" id="guardPayBtn" onclick="payGuardInline()" disabled>Payer</button>
+            <button type="button" class="btn-secondary btn-sm" id="guardOpenBtn" onclick="openGuardSession()">Ouvrir la porte</button>
+            <button type="button" class="btn-secondary btn-sm" id="guardCheckBtn" onclick="checkGuardSession()" disabled>Vérifier paiement</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── PUBLICATION ─── -->
+      <section class="category-panel" data-category="publish">
+        <header class="category-header">
+          <p class="section-tag">// CONTENU</p>
+          <h2 class="section-title">Publication</h2>
+          <p class="tagline">Stockage IPFS et statistiques locales — session Guard requise pour les uploads</p>
+        </header>
+
+        <div class="category-block" id="announce">
+          <h3 class="block-title">Annonces blockchain</h3>
+          <p class="block-desc">Compte nœud pour enregistrer les CID sur Tajcoin (OP_RETURN) — distinct de votre wallet personnel</p>
+          <div id="announceStatus" class="discover-info">Chargement…</div>
+        </div>
+
+        <div class="category-block" id="ipfs">
+          <h3 class="block-title">Upload IPFS</h3>
+          <p class="block-desc">Fichier → CID + liens gateway — <strong>session Guard</strong> requise (onglet Sécurité)</p>
+          <div id="guardPublishHint" class="discover-info"></div>
+          <form id="ipfsUploadForm" class="ipfs-upload-form" onsubmit="return false">
+            <label class="upload-file-label" for="ipfsFile">Fichier à publier</label>
+            <div class="upload-file-field">
+              <input type="file" id="ipfsFile" class="file-input">
+            </div>
+            <label class="checkbox-label upload-option">
+              <input type="checkbox" id="ipfsWrap">
+              <span>Encapsuler dans un dossier IPFS</span>
+            </label>
+            <button type="button" class="btn-primary btn-upload" onclick="uploadToIpfs()">Uploader sur IPFS</button>
+          </form>
+          <div id="ipfsUploadStatus" class="feedback"></div>
+          <div id="ipfsUploadResult" class="ipfs-result hidden"></div>
+        </div>
+
+        <div class="category-block" id="matomo">
+          <h3 class="block-title">Matomo</h3>
+          <p class="block-desc">Analytics locales — code de suivi public via <code>/matomo/</code> (admin en tunnel SSH)</p>
+          <div id="matomoStatus" class="discover-info">Chargement…</div>
+          <details id="matomoSnippetBlock" class="entry-more-actions hidden">
+            <summary>Code de suivi TajNet (pages IPFS)</summary>
+            <p class="tagline">Ne pas copier depuis Matomo admin (localhost) — utiliser celui-ci :</p>
+            <pre id="matomoSnippet" class="discover-info" style="white-space:pre-wrap;max-height:12rem;overflow:auto"></pre>
+          </details>
+          <div class="matomo-actions">
+            <a id="matomoLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary btn-sm">Dashboard ↗</a>
+            <button type="button" class="btn-secondary btn-sm" id="matomoToggleBtn" onclick="toggleMatomoEmbed()">Afficher ici</button>
+          </div>
+          <iframe id="matomoFrame" class="matomo-frame hidden" title="Matomo Analytics"></iframe>
+        </div>
+      </section>
+
+      <!-- ─── RÉSEAU ─── -->
+      <section class="category-panel" data-category="network" id="discover">
+        <header class="category-header">
+          <p class="section-tag">// BLOCKCHAIN</p>
+          <h2 class="section-title">Discover</h2>
+          <p class="tagline">Index optionnel des annonces CID (TajNet, Tajcoin, Futuremen)</p>
+        </header>
+
+        <div id="discoverStatus" class="discover-info">Chargement…</div>
+        <div id="discoverOperatorBlock">
+        <div class="discover-actions">
+          <button type="button" class="btn-primary btn-sm" id="discoverEnableBtn" onclick="enableDiscover()">Activer</button>
+          <button type="button" class="btn-secondary btn-sm" id="discoverDisableBtn" onclick="disableDiscover()">Désactiver</button>
+          <button type="button" class="btn-secondary btn-sm" id="discoverScanBtn" onclick="scanDiscover()">Scanner</button>
+        </div>
+
+        <details class="panel-details" id="discoverConfigDetails">
+          <summary>Configuration du nœud</summary>
+          <div class="discover-profile form-grid">
+            <label class="checkbox-label">
+              <input type="checkbox" id="discoverPublic"> Nœud visible dans l'annuaire
+            </label>
+            <input type="text" id="discoverNodeName" placeholder="Nom du nœud">
+            <input type="text" id="discoverEndpoint" placeholder="URL publique (https://…)">
+            <input type="number" id="discoverPinPrice" min="0" step="0.1" placeholder="Tarif pinning (TAJ)">
+            <input type="number" id="discoverUptime" min="0" max="100" step="1" placeholder="Score uptime (0–100)">
+            <button type="button" class="btn-secondary btn-sm" onclick="saveDiscoverProfile()">Enregistrer profil</button>
+          </div>
+        </details>
+        </div>
+        <p id="discoverWanHint" class="tagline hidden">Configuration Discover réservée à l'opérateur (localhost / LAN) — lecture seule depuis Internet.</p>
+
+        <div class="category-block">
+          <h3 class="block-title">Récompenses TAJ</h3>
+          <p class="block-desc">Contenus épinglés avec cagnotte — triés par récompense puis ratio score/vues (boost).</p>
+          <div id="discoverRewardsIntro" class="discover-rewards-intro hidden"></div>
+          <ul id="discoverOpportunities" class="discover-entries discover-entries--featured"></ul>
+        </div>
+
+        <div class="category-block">
+          <h3 class="block-title">Annonces indexées</h3>
+          <div class="discover-search form-row">
+            <input type="search" id="discoverQuery" placeholder="CID, titre, txid…">
+            <select id="discoverType">
+              <option value="">Tous types</option>
+              <option value="page">Pages</option>
+              <option value="file">Fichiers</option>
+              <option value="cv">CV</option>
+            </select>
+            <select id="discoverProtocol">
+              <option value="">Tous protocoles</option>
+              <option value="tajnet-binary">TajNet (OP_RETURN binaire)</option>
+              <option value="tajnetv1">TAJNETv1 (Futuremen)</option>
+              <option value="tajcoin-cid">Tajcoin MVP</option>
+              <option value="legacy-pipe">Futuremen v0</option>
+            </select>
+            <button type="button" class="btn-primary btn-sm" onclick="loadDiscoverEntries()">Rechercher</button>
+          </div>
+          <ul id="discoverEntries" class="discover-entries"></ul>
+        </div>
+
+        <details class="panel-details">
+          <summary>Annuaire nœuds</summary>
+          <div id="discoverNodes" class="discover-nodes"></div>
+        </details>
+
+        <div class="category-block">
+          <h3 class="block-title">Économie du pinning</h3>
+          <p class="block-desc">Cagnottes et récompenses par contenu épinglé.</p>
+          <div id="pinServiceStatus" class="discover-info">Chargement…</div>
+          <div id="pinRewardsStatus" class="discover-info">Chargement…</div>
+          <div id="contentStakingStatus" class="discover-info">Chargement…</div>
+          <div id="pinPayment" class="guard-payment hidden"></div>
+          <div id="stakePayment" class="guard-payment hidden"></div>
+          <ul id="localPins" class="discover-entries"></ul>
+        </div>
+      </section>
+
+      <!-- ─── ADD-ONS ─── -->
+      <section class="category-panel" data-category="addons" id="addons">
+        <header class="category-header">
+          <p class="section-tag">// ADD-ONS</p>
+          <h2 class="section-title">Add-Ons</h2>
+          <p class="tagline">Extensions métier — Super CV, Bran Web et plugins TajNet</p>
+        </header>
+
+        <div class="category-block" id="addon-super-cv">
+          <h3 class="block-title">Super CV</h3>
+          <p class="block-desc">Recherche sémantique de talents — index local + annonces Discover</p>
+          <div id="superCvStatus" class="discover-info">Chargement…</div>
+
+          <div class="category-block" style="padding-left:0;border-left:none;margin-top:1rem;">
+            <h4 class="block-title">Recherche</h4>
+            <div class="discover-search form-row">
+              <input type="search" id="cvQuery" placeholder="docker ipfs blockchain…">
+              <input type="text" id="cvSkills" placeholder="Docker, IPFS…">
+              <button type="button" class="btn-primary btn-sm" onclick="searchSuperCv()">Rechercher</button>
+            </div>
+            <ul id="cvResults" class="discover-entries"></ul>
+          </div>
+
+          <div class="category-block" style="padding-left:0;border-left:none;">
+            <h4 class="block-title">Indexer un CV</h4>
+            <p class="block-desc">PDF, TXT ou JSON — extraction automatique (Guard requis)</p>
+            <form id="uploadForm" class="form-row">
+              <input type="file" id="cvFile" class="file-input" accept=".pdf,.txt,.json">
+              <button type="button" class="btn-primary btn-sm" onclick="uploadCV()">Indexer</button>
+            </form>
+            <div id="uploadStatus" class="feedback"></div>
+          </div>
+        </div>
+
+        <div class="category-block" id="addon-bran-web">
+          <h3 class="block-title">Bran Web</h3>
+          <p class="block-desc">Éditeur Markdown client (sections bio.md, source.md…) · aperçu gratuit · publication IPFS + Tajcoin <strong>2 TAJ</strong> (MetaMask)</p>
+          <div id="branWebStatus" class="discover-info">Chargement…</div>
+          <div class="form-row" style="margin-top:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <a href="/bran-web/edit.html" class="btn-primary btn-sm">Éditeur Bran Web ↗</a>
+            <a href="/bran-web/" class="btn-secondary btn-sm" target="_blank" rel="noopener noreferrer">Archive démo ↗</a>
+            <button type="button" class="btn-secondary btn-sm operator-only hidden" id="branWebGenerateBtn" onclick="generateBranWeb()">Régénérer démo nœud</button>
+          </div>
+          <p id="branWebActionStatus" class="feedback"></p>
+          <p class="tagline operator-localhost hidden" id="branWebOperatorHint">La régénération depuis le panel est réservée à l'opérateur localhost.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <a href="/" class="footer-logo" style="text-decoration:none;color:inherit;">← Accueil TajNet</a>
+    <span class="footer-copy">Panel v0.1 — Souveraineté numérique · <a href="mailto:info@tajnet.cloud">info@tajnet.cloud</a></span>
+  </footer>
+
+  <script src="/wallet/wallet-provider.js"></script>
+  <script src="/wallet/auth-metamask.js"></script>
+  <script src="/panel/guard-session.js"></script>
+  <script src="/panel/taj-pay.js"></script>
+  <script src="/panel/paid-services.js"></script>
+  <script src="/panel/app.js"></script>
+</body>
+</html>

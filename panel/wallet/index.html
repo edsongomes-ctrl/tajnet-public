@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TajNet — Wallet Tajcoin</title>
+  <link rel="stylesheet" href="/wallet/wallet.css">
+</head>
+<body>
+  <header class="wallet-header">
+    <h1><a href="/panel/">← TajPanel</a> <span>/ Wallet</span></h1>
+    <div class="wallet-actions">
+      <span id="rpcLabel" class="tx-meta"></span>
+      <span id="ethAddress" class="tx-meta"></span>
+      <button type="button" id="refreshBtn" class="btn">Actualiser</button>
+      <button type="button" id="logoutBtn" class="btn">Déconnexion</button>
+    </div>
+  </header>
+
+  <main class="wallet-main">
+    <section class="balance-card">
+      <div class="balance-label">Solde disponible</div>
+      <div class="balance-value" id="balanceValue">0.0000 TAJ</div>
+      <div class="balance-meta">
+        Bloc <span id="blockHeight">—</span> ·
+        <span id="addressCount">0</span> adresse(s)
+      </div>
+    </section>
+
+    <nav class="tabs">
+      <button type="button" class="tab active" data-tab="receive">Recevoir</button>
+      <button type="button" class="tab" data-tab="send">Envoyer</button>
+      <button type="button" class="tab" data-tab="history">Historique</button>
+    </nav>
+
+    <section id="panel-receive" class="panel active">
+      <h2>Recevoir des TAJ</h2>
+      <p class="tx-meta">Partagez cette adresse ou scannez le QR code.</p>
+      <div class="address-box">
+        <code id="receiveAddress">—</code>
+        <button type="button" id="copyAddressBtn" class="btn">Copier</button>
+        <button type="button" id="newAddressBtn" class="btn">Nouvelle adresse</button>
+      </div>
+      <div id="qrCode" class="qr-wrap"></div>
+    </section>
+
+    <section id="panel-send" class="panel">
+      <h2>Envoyer des TAJ</h2>
+      <form id="sendForm">
+        <div class="form-group">
+          <label for="fromAddress">Depuis</label>
+          <select id="fromAddress"></select>
+        </div>
+        <div class="form-group">
+          <label for="toAddress">Destinataire</label>
+          <input type="text" id="toAddress" placeholder="Adresse Tajcoin" required>
+        </div>
+        <div class="form-group">
+          <label for="amount">Montant (TAJ)</label>
+          <input type="number" id="amount" step="0.0001" min="0.0001" placeholder="0.00" required>
+        </div>
+        <div class="form-group">
+          <label for="comment">Commentaire (optionnel)</label>
+          <input type="text" id="comment" maxlength="200">
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+      </form>
+    </section>
+
+    <section id="panel-history" class="panel">
+      <h2>Historique</h2>
+      <ul id="txList" class="tx-list"></ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="/wallet/wallet-provider.js"></script>
+  <script src="/wallet/auth-metamask.js"></script>
+  <script src="/wallet/wallet.js"></script>
+</body>
+</html>

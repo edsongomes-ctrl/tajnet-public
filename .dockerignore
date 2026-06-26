@@ -1,0 +1,15 @@
+node_modules/
+core/node_modules/
+data/**/*
+!data/.gitkeep
+Tajcoin/data/**/*
+!Tajcoin/data/.gitkeep
+.env
+.DS_Store
+plugins/**/uploads/*
+!plugins/**/uploads/.gitkeep
+
+# Archives lourdes — présentes localement, non versionnées
+Tajcoin/bootstrap-900600.zip
+Tajcoin/tajcoin-master.zip
+Tajcoin/*.deb

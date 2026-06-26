@@ -1,0 +1,115 @@
+:root {
+  --bg: #0a0e14;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #3dd6c6;
+  --border: #21262d;
+  --font: "Inter", system-ui, sans-serif;
+  --mono: "JetBrains Mono", monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.birth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.birth-logo {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-decoration: none;
+}
+.birth-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.lang-select {
+  background: #161b22;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+}
+.birth-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #484f58;
+}
+.status-dot.online { background: #3fb950; }
+.status-dot.degraded { background: #d29922; }
+.birth-main {
+  flex: 1;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+.birth-tag {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+.birth-lead {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+.birth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.btn-primary { background: var(--accent); color: #0a0e14; }
+.btn-secondary { background: #21262d; color: var(--text); border: 1px solid var(--border); }
+.btn-ghost { color: var(--muted); border: 1px dashed var(--border); }
+.birth-section h2 { margin-top: 0; }
+.birth-steps { padding-left: 1.25rem; color: var(--muted); }
+.birth-steps li { margin-bottom: 0.5rem; }
+.birth-note { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+.mono-link { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); }
+.birth-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TajNet — Éditeur visuel</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/grapesjs@0.21.9/dist/css/grapes.min.css">
+  <link rel="stylesheet" href="/editor/editor.css">
+</head>
+<body>
+  <header class="editor-header">
+    <div class="editor-logo">
+      <a href="/panel/" class="btn btn-back" aria-label="Retour TajPanel">← <span class="editor-back-label">TajPanel</span></a>
+      <span class="editor-logo-sub"> / Éditeur</span>
+    </div>
+    <div class="editor-actions editor-actions--desktop">
+      <span id="guardStatus" class="editor-status">Guard…</span>
+      <button type="button" id="guardPayBtn" class="btn btn-import hidden" onclick="payEditorGuard()">Payer Guard</button>
+      <span id="ipfsStatus" class="editor-status">Chargement…</span>
+      <input type="text" id="pageTitle" placeholder="Titre de la page" value="Ma page TajNet" aria-label="Titre de la page">
+      <button type="button" id="importBtn" class="btn btn-import">📥 Importer</button>
+      <button type="button" id="publishBtn" class="btn btn-publish">🚀 Publier IPFS</button>
+    </div>
+    <button type="button" id="headerMenuBtn" class="btn btn-menu editor-actions--mobile" aria-expanded="false" aria-controls="headerSheet">Menu</button>
+  </header>
+
+  <div id="headerSheet" class="editor-sheet" aria-hidden="true">
+    <div class="editor-sheet-head">
+      <strong>Actions</strong>
+      <button type="button" id="closeHeaderSheet" class="btn btn-import btn-sm">Fermer</button>
+    </div>
+    <label class="editor-sheet-label" for="pageTitleMobile">Titre de la page</label>
+    <input type="text" id="pageTitleMobile" placeholder="Titre de la page" value="Ma page TajNet" aria-label="Titre de la page">
+    <div class="editor-sheet-status">
+      <span id="guardStatusMobile" class="editor-status">Guard…</span>
+      <span id="ipfsStatusMobile" class="editor-status">Chargement…</span>
+    </div>
+    <button type="button" id="guardPayBtnMobile" class="btn btn-import hidden" onclick="payEditorGuard()">Payer Guard</button>
+    <button type="button" id="importBtnMobile" class="btn btn-import">📥 Importer HTML</button>
+    <button type="button" id="publishBtnMobile" class="btn btn-publish">🚀 Publier sur IPFS</button>
+  </div>
+
+  <div id="panelBackdrop" class="editor-backdrop" hidden></div>
+
+  <nav id="mobileBar" class="editor-mobile-bar" aria-label="Outils éditeur mobile" hidden>
+    <button type="button" class="mobile-bar-btn" data-panel="blocks" aria-pressed="false">Blocs</button>
+    <button type="button" class="mobile-bar-btn" data-panel="layers" aria-pressed="false">Calques</button>
+    <button type="button" class="mobile-bar-btn" data-panel="styles" aria-pressed="false">Styles</button>
+    <button type="button" class="mobile-bar-btn" id="deviceCycleBtn" aria-pressed="false">Mobile</button>
+  </nav>
+
+  <div id="gjs"></div>
+
+  <div id="importModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeImport">&times;</span>
+      <h2>Importer du code HTML</h2>
+      <p>Collez une page HTML complète — le CSS des balises &lt;style&gt; sera extrait automatiquement.</p>
+      <textarea id="codeInput" placeholder="<!DOCTYPE html>…"></textarea>
+      <div class="modal-buttons">
+        <button type="button" class="btn btn-import" id="cancelImport">Annuler</button>
+        <button type="button" class="btn btn-publish" id="confirmImport">Importer</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="publishModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closePublish">&times;</span>
+      <h2>🚀 Publié sur IPFS</h2>
+      <div class="publish-result">
+        <p>CID :</p>
+        <code id="resultCid"></code>
+        <div class="publish-links">
+          <a id="resultGateway" href="#" target="_blank" rel="noopener noreferrer">Voir le contenu</a>
+          <a id="resultDweb" href="#" target="_blank" rel="noopener noreferrer">Gateway public</a>
+        </div>
+        <p id="matomoNote" style="margin-top:12px;font-size:0.85rem"></p>
+        <p id="announceNote" style="margin-top:8px;font-size:0.85rem;color:#888"></p>
+      </div>
+      <div class="modal-buttons">
+        <button type="button" class="btn btn-import" id="cancelPublish">Fermer</button>
+        <button type="button" class="btn btn-publish" id="openPublished">Ouvrir la page ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/panel/guard-session.js"></script>
+  <script src="/wallet/wallet-provider.js"></script>
+  <script src="/wallet/auth-metamask.js"></script>
+  <script src="/panel/taj-pay.js"></script>
+  <script src="/panel/paid-services.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/grapesjs@0.21.9/dist/grapes.min.js"></script>
+  <script src="/editor/blocks.js"></script>
+  <script src="/editor/editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TajNet — sovereign IPFS node, Tajcoin, Guard, Discover, Bran Web plugin">
+  <title>TajNet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/landing/public.css">
+</head>
+<body>
+  <header class="birth-header">
+    <a href="/" class="birth-logo">TAJNET</a>
+    <div class="birth-header-right">
+      <div id="langSelect"></div>
+      <div class="birth-status" aria-live="polite">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText" data-i18n="status.checking">Checking…</span>
+      </div>
+      <a href="/panel/" class="btn btn-primary" data-i18n="nav.panel">TajPanel</a>
+    </div>
+  </header>
+
+  <main class="birth-main">
+    <p class="birth-tag" data-i18n="birth.tag">Official public release · v1.0</p>
+    <h1 data-i18n="birth.title">TajNet is born</h1>
+    <p class="birth-lead" data-i18n="birth.lead">A sovereign personal node…</p>
+    <div class="birth-actions">
+      <a href="/panel/" class="btn btn-primary" data-i18n="birth.cta.panel">Open TajPanel →</a>
+      <a href="/bran-web/edit.html" class="btn btn-secondary" data-i18n="birth.cta.bran">Bran Web editor →</a>
+      <a href="https://github.com/Taj-Coin/tajcoin/releases/download/v1.1/bootstrap-900600.zip" class="btn btn-ghost" data-i18n="birth.cta.bootstrap" rel="noopener">Download blockchain bootstrap</a>
+    </div>
+
+    <section class="birth-section">
+      <h2 data-i18n="birth.plugins.title">Plugins</h2>
+      <p data-i18n="birth.plugins.lead">TajNet extends through folders under plugins/…</p>
+      <ol class="birth-steps">
+        <li data-i18n="birth.plugins.step1">Create manifest.json…</li>
+        <li data-i18n="birth.plugins.step2">Export handlers…</li>
+        <li data-i18n="birth.plugins.step3">Restart the core…</li>
+      </ol>
+      <p data-i18n="birth.plugins.bran">This public edition includes Bran Web…</p>
+      <p class="birth-note" data-i18n="birth.plugins.more">Super CV, Matomo…</p>
+      <p><a href="/PLUGINS.md" class="mono-link">PLUGINS.md</a> · <a href="/README.md" class="mono-link">README.md</a></p>
+    </section>
+  </main>
+
+  <footer class="birth-footer">
+    <span data-i18n="footer.edition">TajNet public edition v1.0 · Plugin: Bran Web</span>
+  </footer>
+
+  <script src="/shared/i18n.js"></script>
+  <script src="/landing/public.js"></script>
+</body>
+</html>
